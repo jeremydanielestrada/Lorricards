@@ -10,7 +10,7 @@ function LayoutWrapper() {
     <>
       {/* Navbar */}
       <button
-        className={`p-5 cursor-pointer transition-all duration-300 ${
+        className={`p-5 cursor-pointer transition-all duration-300 relative z-50 ${
           isNavShow ? "ml-70" : "ml-0"
         }`}
         onClick={() => setIsNavShow((prev) => !prev)}
@@ -23,7 +23,7 @@ function LayoutWrapper() {
       </button>
 
       <SideNavigation showNav={isNavShow} />
-      <main>
+      <main className="py-8 px-2">
         <Outlet />
       </main>
     </>
