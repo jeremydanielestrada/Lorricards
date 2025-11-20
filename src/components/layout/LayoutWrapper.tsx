@@ -10,7 +10,9 @@ function LayoutWrapper() {
     <>
       {/* Navbar */}
       <button
-        className={isNavShow ? "ml-70 p-5" : "p-5"}
+        className={`p-5 cursor-pointer transition-all duration-300 ${
+          isNavShow ? "ml-70" : "ml-0"
+        }`}
         onClick={() => setIsNavShow((prev) => !prev)}
       >
         {isNavShow ? (
