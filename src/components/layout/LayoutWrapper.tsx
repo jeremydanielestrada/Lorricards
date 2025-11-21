@@ -22,7 +22,7 @@ function LayoutWrapper() {
         )}
       </button>
 
-      <SideNavigation showNav={isNavShow} />
+      {isNavShow && <SideNavigation />}
       <main className="py-8 px-2">
         <Outlet />
       </main>
