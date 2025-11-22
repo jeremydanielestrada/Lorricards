@@ -1,8 +1,8 @@
 import { Outlet } from "react-router";
 import { useState } from "react";
-import SideNavigation from "./SideNavigation";
 import { CircleChevronRight } from "lucide-react";
 import { CircleChevronLeft } from "lucide-react";
+import SideNavigation from "./SideNavigation";
 
 function LayoutWrapper() {
   const [isNavShow, setIsNavShow] = useState<boolean>(true);

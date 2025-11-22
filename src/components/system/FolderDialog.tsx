@@ -14,7 +14,7 @@ function FolderDialog({ open, onClose }: FolderDialog) {
         } `}
       >
         <div
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()} //Avoid modal being close when click
           className={`card shadow transition-all ${
             open ? "scale-100 opacity-100" : "scale-125 opacity-0"
           }`}
@@ -33,7 +33,7 @@ function FolderDialog({ open, onClose }: FolderDialog) {
               className="base-btn bg-red-600 hover:bg-red-700"
               onClick={onClose}
             >
-              CLose
+              Close
             </button>
           </div>
         </div>
