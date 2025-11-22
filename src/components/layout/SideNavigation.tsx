@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { FolderPlus } from "lucide-react";
-import FolderDialog from "../system/FolderDialog";
+import { Folders } from "../mock-data/Folders";
+import { useNavigate } from "react-router";
 import Folder from "../system/Folder";
+import FolderDialog from "../system/FolderDialog";
 
 function SideNavigation() {
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="fixed top-0 bottom-0 z-50 px-4 bg-slate-800 border-2 border-slate-700 w-70  transition-transform  duration-300 ease-in-out ">
@@ -29,7 +33,17 @@ function SideNavigation() {
           <span className="font-medium text-slate-400">Folders:</span>
           <ul>
             <li>
-              <Folder topic="Programming" />
+              {Folders.map((folder) => (
+                <Folder
+                  view={() =>
+                    navigate(`folder/${folder.title}`, {
+                      state: { folderData: folder },
+                    })
+                  }
+                  key={folder.id}
+                  title={folder.title}
+                />
+              ))}
             </li>
           </ul>
         </div>
