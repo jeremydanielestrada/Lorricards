@@ -1,6 +1,7 @@
-import { Plus } from "lucide-react";
 import { useState } from "react";
+import { FolderPlus } from "lucide-react";
 import FolderDialog from "../system/FolderDialog";
+import Folder from "../system/Folder";
 
 function SideNavigation() {
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
@@ -19,9 +20,19 @@ function SideNavigation() {
           onClick={() => setIsDialogVisible(true)}
           className="base-btn py-1 flex items-center justify-center space-x-2"
         >
+          <FolderPlus />
           <span>Add Folder</span>
-          <Plus />
         </button>
+
+        {/* Folder List */}
+        <div className="my-5">
+          <span className="font-medium text-slate-400">Folders:</span>
+          <ul>
+            <li>
+              <Folder topic="Programming" />
+            </li>
+          </ul>
+        </div>
 
         <FolderDialog
           open={isDialogVisible}
