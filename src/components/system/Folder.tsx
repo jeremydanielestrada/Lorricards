@@ -1,19 +1,24 @@
 import { FolderClosed } from "lucide-react";
+import { NavLink } from "react-router";
 
 interface FolderTypes {
   title: string;
-  view: () => void;
+  link: string;
 }
 
-function Folder({ title, view }: FolderTypes) {
+function Folder({ title, link }: FolderTypes) {
   return (
-    <div
-      className="py-2 rounded-sm cursor-pointer hover:bg-slate-500/75 flex items-center"
-      onClick={view}
+    <NavLink
+      to={link}
+      className={({ isActive }) =>
+        `py-2 my-2 rounded-sm cursor-pointer flex items-center ${
+          isActive ? "bg-slate-600" : "hover:bg-slate-500/75"
+        }`
+      }
     >
       <FolderClosed size="30" className="ml-2" />
       <p className="text-md font-semibold mx-1 truncate">{title}</p>
-    </div>
+    </NavLink>
   );
 }
 

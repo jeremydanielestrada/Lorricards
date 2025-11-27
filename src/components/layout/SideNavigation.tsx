@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { FolderPlus } from "lucide-react";
 import { Folders } from "../mock-data/Folders";
-import { useNavigate } from "react-router";
 import Folder from "../system/Folder";
 import FolderDialog from "../system/FolderDialog";
 
 function SideNavigation() {
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   return (
     <>
@@ -35,11 +33,7 @@ function SideNavigation() {
             <li>
               {Folders.map((folder) => (
                 <Folder
-                  view={() =>
-                    navigate(`folder/${folder.title}`, {
-                      state: { folderData: folder },
-                    })
-                  }
+                  link={`folder/${folder.title}`}
                   key={folder.id}
                   title={folder.title}
                 />
