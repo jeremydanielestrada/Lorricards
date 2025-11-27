@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router";
 import LayoutWrapper from "../components/layout/LayoutWrapper";
-import Login from "../components/pages/Login";
-import Register from "../components/pages/Register";
-import ViewFolder from "../components/pages/ViewFolder";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import ViewFolder from "../pages/ViewFolder";
 
 function AppRoutes() {
   return (
