@@ -1,6 +1,8 @@
 import { useState, type JSX } from "react";
 import { useParams, useLocation } from "react-router";
+import { flashcards } from "../components/mock-data/FlashCards";
 import { NotebookPen, Import, type LucideIcon } from "lucide-react";
+import Flashcard from "../components/system/Flashcard";
 
 //Types
 type TabId = "tab1" | "tab2";
@@ -51,7 +53,7 @@ function ViewFolder() {
           const Icon = tab.icon;
           return (
             <button
-              className={`py-2 px-1 bg-slate-400 mb-2 rounded cursor-pointer font-semibold flex items-center space-x-1 ${
+              className={`md:py-2 font-semibold md:text-lg px-1 text-sm bg-slate-400 mb-2 rounded cursor-pointer  flex items-center space-x-1 ${
                 activeTab === tab.id
                   ? " border-b-2 border-b-blue-600 text-blue-600"
                   : `text-white`
@@ -67,7 +69,15 @@ function ViewFolder() {
       </div>
       <div className="mt-5">{tabContent[activeTab]}</div>
 
-      <div className="w-full border-2 border-white mt-3"></div>
+      <div
+        className={`w-full border-2 border-white  max-h-120  mt-5 grid md:grid-cols-3 sm:grid-cols-2 gap-4 ${
+          flashcards.length > 3 ? "overflow-y-scroll" : "overflow-hidden"
+        }`}
+      >
+        {flashcards.map((f) => (
+          <Flashcard key={f.question} question={f.question} answer={f.answer} />
+        ))}
+      </div>
     </div>
   );
 }
