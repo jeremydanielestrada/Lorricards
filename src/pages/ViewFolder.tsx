@@ -41,7 +41,7 @@ function ViewFolder() {
   };
 
   return (
-    <div className="mx-auto w-80 sm:w-100  md:w-180">
+    <div className="mx-auto w-80 sm:w-100  md:w-300">
       <h1 className="text-center  text-3xl sm:text-5xl md:text-7xl">
         {folderData?.title || title}
       </h1>
@@ -66,6 +66,8 @@ function ViewFolder() {
         })}
       </div>
       <div className="mt-5">{tabContent[activeTab]}</div>
+
+      <div className="w-full border-2 border-white mt-3"></div>
     </div>
   );
 }

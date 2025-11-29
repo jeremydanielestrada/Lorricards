@@ -34,6 +34,7 @@ function SideNavigation() {
               {Folders.map((folder) => (
                 <Folder
                   link={`folder/${folder.title}`}
+                  folder={folder}
                   key={folder.id}
                   title={folder.title}
                 />
