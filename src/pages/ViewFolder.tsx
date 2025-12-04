@@ -2,7 +2,9 @@ import { useState, type JSX } from "react";
 import { useParams, useLocation } from "react-router";
 import { flashcards } from "../components/mock-data/FlashCards";
 import { NotebookPen, Import, type LucideIcon } from "lucide-react";
+import PasteNoteInput from "./partials/PasteNoteInput";
 import Flashcard from "../components/system/Flashcard";
+import ImportFileiInput from "./partials/ImportFileInput";
 
 //Types
 type TabId = "tab1" | "tab2";
@@ -24,22 +26,9 @@ function ViewFolder() {
   ];
 
   const tabContent: Record<TabId, JSX.Element> = {
-    tab1: (
-      <form>
-        <textarea
-          className="input-base m-0 resize-none "
-          placeholder="Paste your notes.."
-        ></textarea>
-        <button className="base-btn mt-1">Save</button>
-      </form>
-    ),
+    tab1: <PasteNoteInput />,
 
-    tab2: (
-      <div className="mt-2">
-        <h2 className="text-xl font-bold mb-2">Import File</h2>
-        <input type="file" className="input-base" />
-      </div>
-    ),
+    tab2: <ImportFileiInput />,
   };
 
   return (
