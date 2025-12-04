@@ -10,7 +10,7 @@ function Login() {
       </div>
       <LoginForm />
 
-      <p className="text-center my-4  border-b-2 border-slate-600">Or</p>
+      <p className="text-center py-4  border-b-2 border-slate-600">Or</p>
       <SigninWithGoogle />
       <div className="mt-3 text-lg text-right hover:underline">
         <NavLink to="register">Sign up</NavLink>
