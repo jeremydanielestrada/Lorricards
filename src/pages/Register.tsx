@@ -1,5 +1,4 @@
 import { NavLink } from "react-router";
-import SigninWithGoogle from "../components/auth/SigninWithGoogle";
 import RegisterForm from "../components/auth/RegisterForm";
 
 function Register() {
@@ -10,7 +9,6 @@ function Register() {
       </div>
       <RegisterForm />
       <p className="text-center py-4  border-b-2 border-slate-600">Or</p>
-      <SigninWithGoogle />
       <div className="mt-3 text-lg text-right hover:underline">
         <NavLink to="/">Sign in</NavLink>
       </div>
