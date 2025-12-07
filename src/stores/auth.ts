@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { api } from "../utils/axios";
 
-interface UserData {
+export interface UserData {
   first_name: string;
   last_name: string;
   email: string;
@@ -11,9 +11,9 @@ interface UserData {
 
 interface AuthResponse {
   success: boolean;
+  error: boolean;
   message: string;
   user?: UserData;
-  token?: string;
 }
 
 type LoginTypes = Pick<UserData, "email" | "password">;
