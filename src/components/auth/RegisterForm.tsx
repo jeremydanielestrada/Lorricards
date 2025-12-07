@@ -2,6 +2,7 @@ import { authStore } from "../../stores/auth";
 import { useState } from "react";
 import { formActionDefault } from "../../utils/helpers";
 import { useNavigate } from "react-router";
+import { LoaderCircle } from "lucide-react";
 import type { UserData } from "../../stores/auth";
 
 const formDataDefault = {
@@ -10,6 +11,7 @@ const formDataDefault = {
   email: "",
   password: "",
   confirm_password: "",
+  role: "user",
 };
 
 function RegisterForm() {
@@ -44,11 +46,11 @@ function RegisterForm() {
       });
 
       navigate("home");
-    } else if (res.error || form.password !== form.confirm_password) {
+    } else if (res.error) {
       setFormAction({
         ...formAction,
         formProcess: false,
-        formSuccessMessage: "Error registering user",
+        formErrorMessage: "Error registering user",
       });
     }
   };
@@ -118,8 +120,16 @@ function RegisterForm() {
         onChange={handleChange}
       />
 
-      <button type="submit" className="base-btn">
-        Sign up
+      <button
+        type="submit"
+        className="base-btn flex items-center justify-center"
+        disabled={formAction.formProcess}
+      >
+        {formAction.formProcess ? (
+          <LoaderCircle size={30} strokeWidth={3} className="animate-spin" />
+        ) : (
+          <span>Sign up</span>
+        )}
       </button>
     </form>
   );
