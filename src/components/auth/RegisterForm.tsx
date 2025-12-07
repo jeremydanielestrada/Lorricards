@@ -38,19 +38,19 @@ function RegisterForm() {
 
     const res = await registerUser(form);
 
-    if (res.user) {
+    if (res.user && res.success) {
       setFormAction({
         ...formAction,
         formProcess: false,
         formSuccessMessage: "User registered successfully",
       });
 
-      navigate("home");
-    } else if (res.error) {
+      navigate("/home");
+    } else {
       setFormAction({
         ...formAction,
         formProcess: false,
-        formErrorMessage: "Error registering user",
+        formErrorMessage: res.message,
       });
     }
   };
@@ -65,6 +65,12 @@ function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit}>
+      <div>
+        <h3 className="text-center text-lg text-red-600">
+          {formAction.formErrorMessage}
+        </h3>
+      </div>
+
       <label htmlFor="first name" className="text-lg">
         First Name
       </label>

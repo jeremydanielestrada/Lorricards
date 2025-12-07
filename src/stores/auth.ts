@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
 import { api } from "../utils/axios";
 
+//types
 export interface UserData {
   first_name: string;
   last_name: string;
@@ -12,7 +14,6 @@ export interface UserData {
 
 interface AuthResponse {
   success: boolean;
-  error: boolean;
   message: string;
   user?: UserData;
 }
@@ -28,6 +29,7 @@ interface AuthStore {
   setUserData: (user: UserData | null) => void;
 }
 
+//Actions and States
 export const authStore = create<AuthStore>((set) => ({
   userData: null,
 
@@ -35,9 +37,11 @@ export const authStore = create<AuthStore>((set) => ({
     try {
       const res = await api.post("/auth/register", formData);
       return res.data;
-    } catch (error) {
-      console.error("Registration failed:", error);
-      throw error;
+    } catch (error: any) {
+      return {
+        success: false,
+        message: error.response?.data?.message || "Login failed",
+      };
     }
   },
 
