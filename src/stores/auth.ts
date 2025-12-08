@@ -18,7 +18,7 @@ interface AuthResponse {
   user?: UserData;
 }
 
-type LoginTypes = Pick<UserData, "email" | "password">;
+export type LoginTypes = Pick<UserData, "email" | "password">;
 
 interface AuthStore {
   userData: UserData | null;
