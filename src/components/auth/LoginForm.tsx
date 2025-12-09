@@ -4,6 +4,7 @@ import type { LoginTypes } from "../../stores/auth";
 import { formActionDefault } from "../../utils/helpers";
 import { LoaderCircle } from "lucide-react";
 import { useNavigate } from "react-router";
+import AlertNotification from "../common/AlertNotifications";
 
 const formDataDefault = {
   email: "",
@@ -13,6 +14,7 @@ const formDataDefault = {
 function LoginForm() {
   const [form, setForm] = useState<LoginTypes>(formDataDefault);
   const [formAction, setFormAction] = useState(formActionDefault);
+  const [isSuccess, setSuccess] = useState<boolean>(false);
 
   const { loginUser } = authStore();
   const navigate = useNavigate();
@@ -26,11 +28,11 @@ function LoginForm() {
     if (res.user && res.success) {
       setFormAction({
         ...formAction,
-        formSuccessMessage: "Login Successfully",
+        formSuccessMessage: res.message,
         formProcess: false,
       });
-
       setForm(formDataDefault);
+      setSuccess(true);
       navigate("/home");
     } else {
       setFormAction({
@@ -50,6 +52,14 @@ function LoginForm() {
   };
   return (
     <form onSubmit={handleSubmit}>
+      <AlertNotification
+        success={isSuccess}
+        message={
+          isSuccess
+            ? formAction.formSuccessMessage
+            : formAction.formErrorMessage
+        }
+      />
       <label htmlFor="email" className="text-lg">
         Email
       </label>
@@ -68,7 +78,7 @@ function LoginForm() {
         type="password"
         name="password"
         className="input-base"
-        value={form.email}
+        value={form.password}
         onChange={handleChange}
       />
 

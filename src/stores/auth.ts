@@ -15,6 +15,7 @@ export interface UserData {
 interface AuthResponse {
   success: boolean;
   message: string;
+  status?: number;
   user?: UserData;
 }
 
@@ -49,10 +50,12 @@ export const authStore = create<AuthStore>((set) => ({
     try {
       const res = await api.post("/auth/login", formData);
       set({ userData: res.data.user }); // Automatically store user on login
-      return res.data;
-    } catch (error) {
-      console.error("Login failed:", error);
-      throw error;
+      return { success: true, ...res.data };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: error.response?.data?.message || "Login failed",
+      };
     }
   },
 

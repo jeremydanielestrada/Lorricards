@@ -21,7 +21,7 @@ function RegisterForm() {
 
   const [form, setForm] = useState<UserData>(formDataDefault);
   const [formAction, setFormAction] = useState(formActionDefault);
-  const [success, setSuccess] = useState<boolean>(false);
+  const [isSuccess, setSuccess] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,8 +46,8 @@ function RegisterForm() {
         formProcess: false,
         formSuccessMessage: "User registered successfully",
       });
+      setForm(formDataDefault);
       setSuccess(true);
-
       navigate("/home");
     } else {
       setFormAction({
@@ -69,9 +69,11 @@ function RegisterForm() {
   return (
     <form onSubmit={handleSubmit}>
       <AlertNotification
-        success={success}
+        success={isSuccess}
         message={
-          success ? formAction.formSuccessMessage : formAction.formErrorMessage
+          isSuccess
+            ? formAction.formSuccessMessage
+            : formAction.formErrorMessage
         }
       />
 
