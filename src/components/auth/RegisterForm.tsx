@@ -4,6 +4,7 @@ import { formActionDefault } from "../../utils/helpers";
 import { useNavigate } from "react-router";
 import { LoaderCircle } from "lucide-react";
 import type { UserData } from "../../stores/auth";
+import AlertNotification from "../common/AlertNotifications";
 
 const formDataDefault = {
   first_name: "",
@@ -20,6 +21,7 @@ function RegisterForm() {
 
   const [form, setForm] = useState<UserData>(formDataDefault);
   const [formAction, setFormAction] = useState(formActionDefault);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,6 +46,7 @@ function RegisterForm() {
         formProcess: false,
         formSuccessMessage: "User registered successfully",
       });
+      setSuccess(true);
 
       navigate("/home");
     } else {
@@ -65,11 +68,12 @@ function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <h3 className="text-center text-lg text-red-600">
-          {formAction.formErrorMessage}
-        </h3>
-      </div>
+      <AlertNotification
+        success={success}
+        message={
+          success ? formAction.formSuccessMessage : formAction.formErrorMessage
+        }
+      />
 
       <label htmlFor="first name" className="text-lg">
         First Name
