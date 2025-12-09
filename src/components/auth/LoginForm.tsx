@@ -5,6 +5,7 @@ import { formActionDefault } from "../../utils/helpers";
 import { LoaderCircle } from "lucide-react";
 import { useNavigate } from "react-router";
 import AlertNotification from "../common/AlertNotifications";
+import Button from "../common/Button";
 
 const formDataDefault = {
   email: "",
@@ -82,17 +83,13 @@ function LoginForm() {
         onChange={handleChange}
       />
 
-      <button
-        type="submit"
-        className="base-btn flex items-center justify-center"
+      <Button
+        type={"submit"}
         disabled={formAction.formProcess}
-      >
-        {formAction.formProcess ? (
-          <LoaderCircle size={30} strokeWidth={3} className="animate-spin" />
-        ) : (
-          <span>Sign in</span>
-        )}
-      </button>
+        process={formAction.formProcess}
+        icon={LoaderCircle}
+        text={"Sign In"}
+      />
     </form>
   );
 }
