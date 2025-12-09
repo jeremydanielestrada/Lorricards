@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { LoaderCircle } from "lucide-react";
 import type { UserData } from "../../stores/auth";
 import AlertNotification from "../common/AlertNotifications";
+import Button from "../common/Button";
 
 const formDataDefault = {
   first_name: "",
@@ -131,18 +132,13 @@ function RegisterForm() {
         value={form.confirm_password}
         onChange={handleChange}
       />
-
-      <button
-        type="submit"
-        className="base-btn flex items-center justify-center"
+      <Button
+        type={"submit"}
         disabled={formAction.formProcess}
-      >
-        {formAction.formProcess ? (
-          <LoaderCircle size={30} strokeWidth={3} className="animate-spin" />
-        ) : (
-          <span>Sign up</span>
-        )}
-      </button>
+        process={formAction.formProcess}
+        icon={LoaderCircle}
+        text={"Sign In"}
+      />
     </form>
   );
 }
