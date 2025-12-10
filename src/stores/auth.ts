@@ -12,7 +12,7 @@ export interface UserData {
   role: string;
 }
 
-interface AuthResponse {
+export interface AuthResponse {
   success: boolean;
   message: string;
   status?: number;
@@ -25,6 +25,7 @@ interface AuthStore {
   userData: UserData | null;
   registerUser: (formData: UserData) => Promise<AuthResponse>;
   loginUser: (formData: LoginTypes) => Promise<AuthResponse>;
+  googleAuth: () => Promise<AuthResponse>;
   logoutUser: () => Promise<AuthResponse>;
   fetchUser: () => Promise<void>;
   setUserData: (user: UserData | null) => void;
@@ -55,6 +56,20 @@ export const authStore = create<AuthStore>((set) => ({
       return {
         success: false,
         message: error.response?.data?.message || "Login failed",
+      };
+    }
+  },
+
+  googleAuth: async () => {
+    try {
+      const res = await api.post("/auth/google");
+      set({ userData: res.data.user });
+      return { success: true, ...res.data };
+    } catch (error: any) {
+      console.log(error.message);
+      return {
+        success: false,
+        message: error.response?.data?.message,
       };
     }
   },
