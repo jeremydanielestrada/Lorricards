@@ -8,17 +8,36 @@ function Login() {
   const { googleAuth } = authStore();
 
   useEffect(() => {
-    /* global google */
-    google.accounts.id.initialize({
-      client_id: "YOUR_GOOGLE_CLIENT_ID",
-      callback: googleAuth,
-    });
+    console.log("Client ID:", import.meta.env.VITE_GOOGLE_CLIENT_ID);
+    console.log(
+      "Is undefined?",
+      import.meta.env.VITE_GOOGLE_CLIENT_ID === undefined
+    );
+    const initializeGoogleSignIn = () => {
+      if (window.google) {
+        window.google.accounts.id.initialize({
+          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+          callback: googleAuth,
+        });
 
-    google.accounts.id.renderButton(document.getElementById("googleBtn"), {
-      theme: "outline",
-      size: "large",
-    });
-  }, []);
+        const buttonDiv = document.getElementById("googleBtn");
+        if (buttonDiv) {
+          window.google.accounts.id.renderButton(buttonDiv, {
+            theme: "outline",
+            size: "large",
+          });
+        }
+      }
+    };
+
+    // Wait for script to load
+    if (window.google) {
+      initializeGoogleSignIn();
+    } else {
+      window.addEventListener("load", initializeGoogleSignIn);
+      return () => window.removeEventListener("load", initializeGoogleSignIn);
+    }
+  }, [googleAuth]);
 
   return (
     <div className="card mx-auto md:w-lg ">
@@ -28,7 +47,7 @@ function Login() {
       <LoginForm />
 
       <p className="text-center py-4  border-b-2 border-slate-600">Or</p>
-      <SigninWithGoogle login={googleAuth} />
+      <SigninWithGoogle id={"googleBtn"} login={googleAuth} />
       <div className="mt-3 text-lg text-right hover:underline">
         <NavLink to="register">Sign up</NavLink>
       </div>
