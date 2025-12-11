@@ -1,11 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { NavLink } from "react-router";
 import LoginForm from "../components/auth/LoginForm";
 import SigninWithGoogle from "../components/auth/SigninWithGoogle";
 import { authStore } from "../stores/auth";
-import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useEffect, useCallback } from "react";
 
 function Login() {
   const { googleAuth } = authStore();
+  const navigate = useNavigate();
+
+  const handleGoogleAuth = useCallback(async () => {
+    const res = await googleAuth();
+
+    if (res.success && res.user) {
+      navigate("/home");
+    } else {
+      alert("Error Google Auth");
+    }
+  }, [navigate]); // dependencies that the function uses
+  // googleAuth does not change so no need to include it
 
   useEffect(() => {
     console.log("Client ID:", import.meta.env.VITE_GOOGLE_CLIENT_ID);
@@ -13,11 +27,12 @@ function Login() {
       "Is undefined?",
       import.meta.env.VITE_GOOGLE_CLIENT_ID === undefined
     );
+
     const initializeGoogleSignIn = () => {
       if (window.google) {
         window.google.accounts.id.initialize({
           client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-          callback: googleAuth,
+          callback: handleGoogleAuth,
         });
 
         const buttonDiv = document.getElementById("googleBtn");
@@ -30,14 +45,14 @@ function Login() {
       }
     };
 
-    // Wait for script to load
+    // If script already loaded
     if (window.google) {
       initializeGoogleSignIn();
     } else {
       window.addEventListener("load", initializeGoogleSignIn);
       return () => window.removeEventListener("load", initializeGoogleSignIn);
     }
-  }, [googleAuth]);
+  }, [handleGoogleAuth]);
 
   return (
     <div className="card mx-auto md:w-lg ">
