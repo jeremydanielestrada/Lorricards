@@ -3,6 +3,7 @@ import { FolderPlus } from "lucide-react";
 import { Folders } from "../mock-data/Folders";
 import Folder from "../system/Folder";
 import FolderDialog from "../system/FolderDialog";
+import ProfileBanner from "./ProfileBanner";
 
 function SideNavigation() {
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
@@ -42,6 +43,8 @@ function SideNavigation() {
             </li>
           </ul>
         </div>
+
+        <ProfileBanner />
 
         <FolderDialog
           open={isDialogVisible}

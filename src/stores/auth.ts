@@ -77,9 +77,9 @@ export const authStore = create<AuthStore>((set) => ({
     try {
       const res = await api.post("/auth/logout");
       set({ userData: null });
-      return res.data;
-    } catch (error) {
-      console.error("Logout failed:", error);
+      return { success: true, ...res.data };
+    } catch (error: any) {
+      console.error("Logout failed:", error.response?.data?.message);
       throw error;
     }
   },
@@ -88,8 +88,9 @@ export const authStore = create<AuthStore>((set) => ({
     try {
       const res = await api.get("/auth/session");
       set({ userData: res.data });
-    } catch (error) {
-      console.error("Fetch user failed:", error);
+      console.log("User is authenticated", res.data);
+    } catch (error: any) {
+      console.error("Fetch user failed:", error.response?.data?.message);
       set({ userData: null });
     }
   },
