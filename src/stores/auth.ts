@@ -25,7 +25,7 @@ interface AuthStore {
   userData: UserData | null;
   registerUser: (formData: UserData) => Promise<AuthResponse>;
   loginUser: (formData: LoginTypes) => Promise<AuthResponse>;
-  googleAuth: () => Promise<AuthResponse>;
+  googleAuth: (credential: string) => Promise<AuthResponse>;
   logoutUser: () => Promise<AuthResponse>;
   fetchUser: () => Promise<void>;
   setUserData: (user: UserData | null) => void;
@@ -60,16 +60,16 @@ export const authStore = create<AuthStore>((set) => ({
     }
   },
 
-  googleAuth: async () => {
+  googleAuth: async (credential: string) => {
     try {
-      const res = await api.post("/auth/google");
+      const res = await api.post("/auth/google", { credential }); // ✅ Send credential to backend
       set({ userData: res.data.user });
       return { success: true, ...res.data };
     } catch (error: any) {
       console.log(error.message);
       return {
         success: false,
-        message: error.response?.data?.message,
+        message: error.response?.data?.message || "Google auth failed",
       };
     }
   },

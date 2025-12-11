@@ -1,7 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NavLink } from "react-router";
 import LoginForm from "../components/auth/LoginForm";
-import SigninWithGoogle from "../components/auth/SigninWithGoogle";
 import { authStore } from "../stores/auth";
 import { useNavigate } from "react-router";
 import { useEffect, useCallback } from "react";
@@ -10,24 +9,33 @@ function Login() {
   const { googleAuth } = authStore();
   const navigate = useNavigate();
 
-  const handleGoogleAuth = useCallback(async () => {
-    const res = await googleAuth();
+  const handleGoogleAuth = useCallback(
+    async (response: any) => {
+      console.log("Google response:", response); // Debug log
 
-    if (res.success && res.user) {
-      navigate("/home");
-    } else {
-      alert("Error Google Auth");
-    }
-  }, [navigate]); // dependencies that the function uses
-  // googleAuth does not change so no need to include it
+      if (response.credential) {
+        console.log(
+          "Credential received:",
+          response.credential.substring(0, 20) + "..."
+        ); // Debug log
+
+        const res = await googleAuth(response.credential);
+
+        if (res.success && res.user) {
+          navigate("/home");
+        } else {
+          console.error("Auth failed:", res.message); // Debug log
+          alert(`Error Google Auth: ${res.message}`);
+        }
+      } else {
+        console.error("No credential in response"); // Debug log
+        alert("No credential received from Google");
+      }
+    },
+    [navigate, googleAuth]
+  );
 
   useEffect(() => {
-    console.log("Client ID:", import.meta.env.VITE_GOOGLE_CLIENT_ID);
-    console.log(
-      "Is undefined?",
-      import.meta.env.VITE_GOOGLE_CLIENT_ID === undefined
-    );
-
     const initializeGoogleSignIn = () => {
       if (window.google) {
         window.google.accounts.id.initialize({
@@ -40,6 +48,7 @@ function Login() {
           window.google.accounts.id.renderButton(buttonDiv, {
             theme: "outline",
             size: "large",
+            with: "300",
           });
         }
       }
@@ -62,7 +71,7 @@ function Login() {
       <LoginForm />
 
       <p className="text-center py-4  border-b-2 border-slate-600">Or</p>
-      <SigninWithGoogle id={"googleBtn"} login={googleAuth} />
+      <button id="googleBtn" className="w-full"></button>
       <div className="mt-3 text-lg text-right hover:underline">
         <NavLink to="register">Sign up</NavLink>
       </div>
