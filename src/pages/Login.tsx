@@ -11,25 +11,14 @@ function Login() {
 
   const handleGoogleAuth = useCallback(
     async (response: any) => {
-      console.log("Google response:", response); // Debug log
-
       if (response.credential) {
-        console.log(
-          "Credential received:",
-          response.credential.substring(0, 20) + "..."
-        ); // Debug log
-
         const res = await googleAuth(response.credential);
 
         if (res.success && res.user) {
           navigate("/home");
         } else {
-          console.error("Auth failed:", res.message); // Debug log
           alert(`Error Google Auth: ${res.message}`);
         }
-      } else {
-        console.error("No credential in response"); // Debug log
-        alert("No credential received from Google");
       }
     },
     [navigate, googleAuth]
@@ -48,7 +37,7 @@ function Login() {
           window.google.accounts.id.renderButton(buttonDiv, {
             theme: "outline",
             size: "large",
-            with: "300",
+            logo_alignment: "center",
           });
         }
       }

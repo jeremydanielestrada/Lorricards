@@ -66,7 +66,6 @@ export const authStore = create<AuthStore>((set) => ({
       set({ userData: res.data.user });
       return { success: true, ...res.data };
     } catch (error: any) {
-      console.log(error.message);
       return {
         success: false,
         message: error.response?.data?.message || "Google auth failed",

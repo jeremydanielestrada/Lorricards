@@ -15,3 +15,9 @@
     @apply bg-slate-800  p-5  rounded shadow-2xl;
   }
 }
+
+#googleBtn {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* optional */
+}
