@@ -137,7 +137,7 @@ function RegisterForm() {
         disabled={formAction.formProcess}
         process={formAction.formProcess}
         icon={LoaderCircle}
-        text={"Sign In"}
+        text={"Sign Up"}
       />
     </form>
   );
