@@ -6,6 +6,7 @@ import SideNavigation from "./SideNavigation";
 
 function LayoutWrapper() {
   const [isNavShow, setIsNavShow] = useState<boolean>(true);
+
   return (
     <>
       {/* Navbar */}
@@ -21,7 +22,6 @@ function LayoutWrapper() {
           <CircleChevronRight className="size-8" />
         )}
       </button>
-
       {isNavShow && <SideNavigation />}
       <main className={`py-8 px-2 ${isNavShow ? "w-full sm:ml-30" : "w-full"}`}>
         <Outlet />
