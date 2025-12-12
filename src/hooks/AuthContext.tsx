@@ -1,8 +1,9 @@
+/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useEffect } from "react";
 import type { UserData } from "../stores/auth";
 import { authStore } from "../stores/auth";
-const AuthContext = createContext<UserData | null>(null);
+export const AuthContext = createContext<UserData | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { userData, fetchUser } = authStore();

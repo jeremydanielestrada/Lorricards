@@ -1,15 +1,12 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { authStore } from "../../stores/auth";
-import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import { useContext } from "react";
+import { AuthContext } from "../../hooks/AuthContext"; // Add this import
 
 function ProfileBanner() {
-  const { userData, fetchUser, logoutUser } = authStore();
+  const { logoutUser } = authStore();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  const user = useContext(AuthContext); // Add this line to get user from context
 
   const handleLogout = async () => {
     const res = await logoutUser();
@@ -20,13 +17,12 @@ function ProfileBanner() {
       alert("Error logging out user");
     }
   };
+
   return (
     <div className="absolute bottom-2 border-t-2 w-60">
       <div className="mt-2 flex items-center justify-between">
         <span className="font-semibold">
-          {userData
-            ? `${userData.first_name} ${userData.last_name}`
-            : "Loading..."}
+          {user ? `${user.first_name} ${user.last_name}` : "Loading..."}
         </span>
         <button className="cursor-pointer" onClick={handleLogout}>
           Sign out
