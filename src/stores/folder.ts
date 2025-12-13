@@ -8,16 +8,18 @@ export interface FolderType {
   user_id: number;
 }
 
-interface FolderResponse {
+export interface FolderResponse {
   success: boolean;
   message: string;
-  folder?: FolderType;
+  folders?: FolderType;
 }
 
 interface FolderStore {
   folders: FolderType[];
   getFoldersByuserId: () => Promise<void>;
   createFolder: (form: FolderType) => Promise<FolderResponse>;
+  updateFolder: (formData: FolderType) => Promise<FolderResponse>;
+  deleteFolder: (folderId: number) => Promise<FolderResponse>;
   setFolders: (folder: FolderType[]) => void;
 }
 
@@ -39,7 +41,27 @@ export const useFolderStore = create<FolderStore>((set) => ({
       return { success: true, ...res.data };
     } catch (error: any) {
       console.log(error);
-      return { message: error.response?.data?.message };
+      return { success: false, message: error.response?.data?.message };
+    }
+  },
+
+  updateFolder: async (formData: FolderType) => {
+    try {
+      const res = await api.put(`folder/update/${formData.id}`, formData);
+      return { success: true, ...res.data };
+    } catch (error: any) {
+      console.log(error);
+      return { success: false, message: error.response?.data?.message };
+    }
+  },
+
+  deleteFolder: async (folderId: number) => {
+    try {
+      const res = await api.delete(`/folder/delete/${folderId}`);
+      return { success: true, ...res.data };
+    } catch (error: any) {
+      console.log(error);
+      return { success: false, message: error.response?.data?.message };
     }
   },
 

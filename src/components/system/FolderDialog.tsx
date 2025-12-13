@@ -1,4 +1,5 @@
-import { useState, useContext } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useContext, useEffect } from "react";
 import { formActionDefault } from "../../utils/helpers";
 import { useFolderStore } from "../../stores/folder";
 import { AuthContext } from "../../hooks/AuthContext";
@@ -10,22 +11,36 @@ import Button from "../common/Button";
 interface FolderDialog {
   open: boolean;
   onClose: () => void;
+  folderData?: FolderType;
 }
 
-function FolderDialog({ open, onClose }: FolderDialog) {
-  const { createFolder } = useFolderStore();
+function FolderDialog({ open, folderData, onClose }: FolderDialog) {
+  const { createFolder, updateFolder } = useFolderStore();
   const user = useContext(AuthContext);
   const [formAction, setFormAction] = useState(formActionDefault);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [form, setForm] = useState<FolderType>({
     title: "",
     user_id: user?.id || 0,
   });
+
+  useEffect(() => {
+    if (folderData && Object.keys(folderData).length > 0) {
+      setIsUpdate(true);
+      setForm(folderData);
+    } else {
+      setIsUpdate(false);
+      setForm({ title: "", user_id: user?.id || 0 });
+    }
+  }, [folderData]);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormAction({ ...formAction, formProcess: true });
 
-    const res = await createFolder(form);
+    const res = isUpdate
+      ? await updateFolder(folderData!)
+      : await createFolder(form);
 
     if (res.success) {
       setFormAction({
@@ -91,7 +106,7 @@ function FolderDialog({ open, onClose }: FolderDialog) {
             <Button
               type="submit"
               disabled={formAction.formProcess}
-              text="Submit"
+              text={folderData?.id ? "Update" : "Submit"}
               icon={LoaderCircle}
               process={formAction.formProcess}
             />

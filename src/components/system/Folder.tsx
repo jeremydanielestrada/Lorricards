@@ -1,13 +1,15 @@
 import { FolderClosed, Pencil, Trash } from "lucide-react";
 import { NavLink } from "react-router";
 
-interface FolderTypes {
+interface FolderPropTypes {
   title: string;
   link: string;
   folder: object;
+  onUpdate: () => void;
+  onDelete: () => void;
 }
 
-function Folder({ title, link, folder }: FolderTypes) {
+function Folder({ title, link, folder, onDelete, onUpdate }: FolderPropTypes) {
   return (
     <NavLink
       to={link}
@@ -24,8 +26,8 @@ function Folder({ title, link, folder }: FolderTypes) {
       </div>
 
       <div className="flex space-x-1 mx-2">
-        <Pencil className="cursor-pointer text-blue-600" />
-        <Trash className="cursor-pointer text-red-600" />
+        <Pencil className="cursor-pointer text-blue-600" onClick={onUpdate} />
+        <Trash className="cursor-pointer text-red-600" onClick={onDelete} />
       </div>
     </NavLink>
   );

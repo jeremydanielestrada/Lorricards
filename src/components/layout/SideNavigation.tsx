@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { FolderPlus } from "lucide-react";
@@ -9,11 +10,19 @@ import { useFolderStore } from "../../stores/folder";
 
 function SideNavigation() {
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
-  const { folders, getFoldersByuserId } = useFolderStore();
+  const { folders, getFoldersByuserId, deleteFolder } = useFolderStore();
+  const [folderData, setFolderData] = useState<FolderType | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     getFoldersByuserId();
   }, []);
+
+  const isUpdate = (data: any) => {
+    setFolderData(data);
+    setIsDialogVisible(true);
+  };
 
   return (
     <>
@@ -39,13 +48,15 @@ function SideNavigation() {
           <span className="font-medium text-slate-400">Folders:</span>
           <ul>
             <li>
-              {folders
+              {folders.length > 0
                 ? folders?.map((folder: FolderType) => (
                     <Folder
                       link={`folder/${folder.title}`}
                       folder={folder}
                       key={folder.id}
                       title={folder.title}
+                      onUpdate={() => isUpdate(folder)}
+                      onDelete={() => deleteFolder(folder.id!)}
                     />
                   ))
                 : "Loading Folders..."}
@@ -58,6 +69,7 @@ function SideNavigation() {
         <FolderDialog
           open={isDialogVisible}
           onClose={() => setIsDialogVisible(false)}
+          folderData={folderData}
         />
       </div>
     </>
