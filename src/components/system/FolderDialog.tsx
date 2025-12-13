@@ -3,6 +3,7 @@ import { formActionDefault } from "../../utils/helpers";
 import { useFolderStore } from "../../stores/folder";
 import { AuthContext } from "../../hooks/AuthContext";
 import { LoaderCircle } from "lucide-react";
+import AlertNotification from "../common/AlertNotifications";
 import type { FolderType } from "../../stores/folder";
 import Button from "../common/Button";
 
@@ -15,29 +16,33 @@ function FolderDialog({ open, onClose }: FolderDialog) {
   const { createFolder } = useFolderStore();
   const user = useContext(AuthContext);
   const [formAction, setFormAction] = useState(formActionDefault);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [form, setForm] = useState<FolderType>({
-    title: " ",
+    title: "",
     user_id: user?.id || 0,
   });
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormAction({ ...formAction, formProcess: true });
+
     const res = await createFolder(form);
 
-    if (res.folder) {
+    if (res.success) {
       setFormAction({
-        ...formAction,
         formSuccessMessage: res.message,
         formProcess: false,
+        formErrorMessage: "",
       });
-      setForm({ ...form, title: "" });
+      setForm({ title: "", user_id: user?.id || 0 });
+      setIsSuccess(true);
+      onClose();
     } else {
       setFormAction({
-        ...formAction,
+        formProcess: false,
         formErrorMessage: res.message || "Error creating folder",
+        formSuccessMessage: "",
       });
-      alert(formAction.formErrorMessage);
+      setIsSuccess(false);
     }
   };
 
@@ -65,15 +70,23 @@ function FolderDialog({ open, onClose }: FolderDialog) {
           }`}
         >
           <form onSubmit={handleSubmit}>
-            <label htmlFor="folder name" className="text-lg font-extrabold">
+            <label htmlFor="title" className="text-lg font-extrabold">
               Folder Name
             </label>
             <input
               type="text"
-              name="folder_title"
+              name="title"
               className="input-base"
               value={form.title}
               onChange={handleChange}
+            />
+            <AlertNotification
+              message={
+                isSuccess
+                  ? formAction.formSuccessMessage
+                  : formAction.formErrorMessage
+              }
+              success={isSuccess}
             />
             <Button
               type="submit"

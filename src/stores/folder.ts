@@ -8,8 +8,9 @@ export interface FolderType {
 }
 
 interface FolderResponse {
+  success: boolean;
   message: string;
-  folder: FolderType;
+  folder?: FolderType;
 }
 
 interface FolderStore {
@@ -32,7 +33,13 @@ export const useFolderStore = create<FolderStore>((set) => ({
   },
 
   createFolder: async (form: FolderType) => {
-    return await api.post("folder/create", form);
+    try {
+      const res = await api.post("/folder/create", form);
+      return { success: true, ...res.data };
+    } catch (error: any) {
+      console.log(error);
+      return { message: error.response?.data?.message };
+    }
   },
 
   setFolder: (folder) => set({ folder: folder }),
