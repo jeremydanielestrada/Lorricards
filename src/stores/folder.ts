@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { api } from "../utils/axios";
 
 export interface FolderType {
+  id?: number;
   title: string;
   user_id: number;
 }
@@ -14,19 +15,19 @@ interface FolderResponse {
 }
 
 interface FolderStore {
-  folder: FolderType | null;
+  folders: FolderType[];
   getFoldersByuserId: () => Promise<void>;
   createFolder: (form: FolderType) => Promise<FolderResponse>;
-  setFolder: (folder: FolderType | null) => void;
+  setFolders: (folder: FolderType[]) => void;
 }
 
 export const useFolderStore = create<FolderStore>((set) => ({
-  folder: null,
+  folders: [],
 
   getFoldersByuserId: async () => {
     try {
       const res = await api.get("/folder/view");
-      set({ folder: res.data });
+      set({ folders: res.data.folders || [] });
     } catch (error: any) {
       console.log(error.response?.data?.message);
     }
@@ -42,5 +43,5 @@ export const useFolderStore = create<FolderStore>((set) => ({
     }
   },
 
-  setFolder: (folder) => set({ folder: folder }),
+  setFolders: (folders) => set({ folders }),
 }));

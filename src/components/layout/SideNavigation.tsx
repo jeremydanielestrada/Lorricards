@@ -1,12 +1,19 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from "react";
 import { FolderPlus } from "lucide-react";
-import { Folders } from "../mock-data/Folders";
 import Folder from "../system/Folder";
 import FolderDialog from "../system/FolderDialog";
 import ProfileBanner from "./ProfileBanner";
+import type { FolderType } from "../../stores/folder";
+import { useFolderStore } from "../../stores/folder";
 
 function SideNavigation() {
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
+  const { folders, getFoldersByuserId } = useFolderStore();
+
+  useEffect(() => {
+    getFoldersByuserId();
+  }, []);
 
   return (
     <>
@@ -32,14 +39,16 @@ function SideNavigation() {
           <span className="font-medium text-slate-400">Folders:</span>
           <ul>
             <li>
-              {Folders.map((folder) => (
-                <Folder
-                  link={`folder/${folder.title}`}
-                  folder={folder}
-                  key={folder.id}
-                  title={folder.title}
-                />
-              ))}
+              {folders
+                ? folders?.map((folder: FolderType) => (
+                    <Folder
+                      link={`folder/${folder.title}`}
+                      folder={folder}
+                      key={folder.id}
+                      title={folder.title}
+                    />
+                  ))
+                : "Loading Folders..."}
             </li>
           </ul>
         </div>
