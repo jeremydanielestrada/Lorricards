@@ -23,7 +23,7 @@ interface FolderStore {
   setFolders: (folder: FolderType[]) => void;
 }
 
-export const useFolderStore = create<FolderStore>((set) => ({
+export const useFolderStore = create<FolderStore>((set, get) => ({
   folders: [],
 
   getFoldersByuserId: async () => {
@@ -51,7 +51,6 @@ export const useFolderStore = create<FolderStore>((set) => ({
       console.log(res.data);
       return { success: true, ...res.data };
     } catch (error: any) {
-      console.log(error);
       return { success: false, message: error.response?.data?.message };
     }
   },
@@ -59,6 +58,7 @@ export const useFolderStore = create<FolderStore>((set) => ({
   deleteFolder: async (folderId: number) => {
     try {
       const res = await api.delete(`/folder/delete/${folderId}`);
+      await get().getFoldersByuserId();
       return { success: true, ...res.data };
     } catch (error: any) {
       console.log(error);

@@ -29,6 +29,9 @@ function SideNavigation() {
     setIsDialogVisible(true);
   };
 
+  const isDelete = async (id: number) => {
+    deleteFolder(id);
+  };
   return (
     <>
       <div className="fixed top-0 bottom-0 z-50 px-4 bg-slate-800 border-2 border-slate-700 w-70  transition-transform  duration-300 ease-in-out ">
@@ -61,7 +64,7 @@ function SideNavigation() {
                       key={folder.id}
                       title={folder.title}
                       onUpdate={() => isUpdate(folder)}
-                      onDelete={() => deleteFolder(folder.id!)}
+                      onDelete={() => isDelete(folder.id!)}
                     />
                   ))
                 : "Loading Folders..."}
