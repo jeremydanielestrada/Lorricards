@@ -15,7 +15,7 @@ interface FolderDialog {
 }
 
 function FolderDialog({ open, folderData, onClose }: FolderDialog) {
-  const { createFolder, updateFolder } = useFolderStore();
+  const { createFolder, updateFolder, getFoldersByuserId } = useFolderStore();
   const user = useContext(AuthContext);
   const [formAction, setFormAction] = useState(formActionDefault);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -38,9 +38,7 @@ function FolderDialog({ open, folderData, onClose }: FolderDialog) {
     e.preventDefault();
     setFormAction({ ...formAction, formProcess: true });
 
-    const res = isUpdate
-      ? await updateFolder(folderData!)
-      : await createFolder(form);
+    const res = isUpdate ? await updateFolder(form) : await createFolder(form);
 
     if (res.success) {
       setFormAction({
@@ -48,6 +46,7 @@ function FolderDialog({ open, folderData, onClose }: FolderDialog) {
         formProcess: false,
         formErrorMessage: "",
       });
+      await getFoldersByuserId();
       setForm({ title: "", user_id: user?.id || 0 });
       setIsSuccess(true);
       onClose();

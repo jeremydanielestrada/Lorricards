@@ -48,6 +48,7 @@ export const useFolderStore = create<FolderStore>((set) => ({
   updateFolder: async (formData: FolderType) => {
     try {
       const res = await api.put(`folder/update/${formData.id}`, formData);
+      console.log(res.data);
       return { success: true, ...res.data };
     } catch (error: any) {
       console.log(error);
