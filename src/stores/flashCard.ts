@@ -6,7 +6,7 @@ interface FlashCard {
   question: string;
   answer: string;
 }
-interface FlashCardResponse {
+export interface FlashCardResponse {
   success: boolean;
   message: string;
   flashcards?: FlashCard;
@@ -39,6 +39,18 @@ export const useFlashCardStore = create<FlashCardStore>((set) => ({
       return { success: true, ...res.data };
     } catch (error: any) {
       console.log(error);
+      return {
+        success: false,
+        message: error.response?.data?.message,
+      };
+    }
+  },
+
+  createFlashCardsByFileUpload: async (folderId: number, file: string) => {
+    try {
+      const res = await api.post(`/upload/${folderId}`, file);
+      return { success: true, ...res.data };
+    } catch (error: any) {
       return {
         success: false,
         message: error.response?.data?.message,

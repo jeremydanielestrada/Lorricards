@@ -1,6 +1,5 @@
 import { useState, type JSX } from "react";
 import { useParams, useLocation } from "react-router";
-import { flashcards } from "../components/mock-data/FlashCards";
 import { NotebookPen, Import, type LucideIcon } from "lucide-react";
 import PasteNoteInput from "./partials/PasteNoteInput";
 import Flashcard from "../components/system/Flashcard";
