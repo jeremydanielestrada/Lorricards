@@ -35,7 +35,7 @@ function ViewFolder() {
   const tabContent: Record<TabId, JSX.Element> = {
     tab1: <PasteNoteInput folderId={Number(folderParams.id) || 0} />,
 
-    tab2: <ImportFileiInput />,
+    tab2: <ImportFileiInput folderId={Number(folderParams.id) || 0} />,
   };
 
   return (

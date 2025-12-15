@@ -19,6 +19,10 @@ interface FlashCardStore {
     folderId: number,
     document: string
   ) => Promise<FlashCardResponse>;
+  createFlashCardsByFileUpload: (
+    folderId: number,
+    file: FormData
+  ) => Promise<FlashCardResponse>;
 }
 
 export const useFlashCardStore = create<FlashCardStore>((set) => ({
@@ -46,7 +50,7 @@ export const useFlashCardStore = create<FlashCardStore>((set) => ({
     }
   },
 
-  createFlashCardsByFileUpload: async (folderId: number, file: string) => {
+  createFlashCardsByFileUpload: async (folderId: number, file: FormData) => {
     try {
       const res = await api.post(`/upload/${folderId}`, file);
       return { success: true, ...res.data };
