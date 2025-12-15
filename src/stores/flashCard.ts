@@ -2,7 +2,7 @@
 import { create } from "zustand";
 import { api } from "../utils/axios";
 
-interface FlashCard {
+export interface FlashCard {
   question: string;
   answer: string;
 }

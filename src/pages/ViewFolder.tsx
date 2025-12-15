@@ -1,9 +1,12 @@
-import { useState, type JSX } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, type JSX, useEffect } from "react";
 import { useParams, useLocation } from "react-router";
 import { NotebookPen, Import, type LucideIcon } from "lucide-react";
 import PasteNoteInput from "./partials/PasteNoteInput";
 import Flashcard from "../components/system/Flashcard";
 import ImportFileiInput from "./partials/ImportFileInput";
+import { useFlashCardStore } from "../stores/flashCard";
+import type { FlashCard } from "../stores/flashCard";
 
 //Types
 type TabId = "tab1" | "tab2";
@@ -15,17 +18,22 @@ interface Tabs {
 
 function ViewFolder() {
   const location = useLocation();
-  const { title } = useParams();
+  const folderParams = useParams();
   const folderData = location.state?.folderData;
   const [activeTab, setActiveTab] = useState<TabId>("tab1");
+  const { getFlashCardByFolderId, flashCards } = useFlashCardStore();
 
   const tabs: Tabs[] = [
     { id: "tab1", label: "Paste Notes", icon: NotebookPen },
     { id: "tab2", label: "Super Import", icon: Import },
   ];
 
+  useEffect(() => {
+    getFlashCardByFolderId(Number(folderParams.id));
+  }, []);
+
   const tabContent: Record<TabId, JSX.Element> = {
-    tab1: <PasteNoteInput />,
+    tab1: <PasteNoteInput folderId={Number(folderParams.id) || 0} />,
 
     tab2: <ImportFileiInput />,
   };
@@ -33,7 +41,7 @@ function ViewFolder() {
   return (
     <div className="mx-auto w-80 sm:w-100  md:w-300">
       <h1 className="text-center  text-3xl sm:text-5xl md:text-7xl">
-        {folderData?.title || title}
+        {folderData?.title || folderParams.title}
       </h1>
 
       <div className="mt-5 flex flex-wrap space-x-2 justify-center items-center border-b  font-semibold">
@@ -59,10 +67,10 @@ function ViewFolder() {
 
       <div
         className={`w-full border-2 border-white  max-h-120  mt-5 grid md:grid-cols-3 sm:grid-cols-2 gap-4 ${
-          flashcards.length > 3 ? "overflow-y-scroll" : "overflow-hidden"
+          flashCards.length > 3 ? "overflow-y-scroll" : "overflow-hidden"
         }`}
       >
-        {flashcards.map((f) => (
+        {flashCards.map((f: FlashCard) => (
           <Flashcard key={f.question} question={f.question} answer={f.answer} />
         ))}
       </div>
