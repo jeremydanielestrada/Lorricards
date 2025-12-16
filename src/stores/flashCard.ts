@@ -55,12 +55,17 @@ export const useFlashCardStore = create<FlashCardStore>((set) => ({
 
   createFlashCardsByFileUpload: async (folderId: number, file: FormData) => {
     try {
-      const res = await api.post(`/flash-card/upload/${folderId}`, file);
+      const res = await api.post(`/flash-card/upload/${folderId}`, file, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return { success: true, ...res.data };
     } catch (error: any) {
+      console.log(error);
       return {
         success: false,
-        message: error.response?.data?.message,
+        message: error.response?.data?.message || "Upload failed",
       };
     }
   },
