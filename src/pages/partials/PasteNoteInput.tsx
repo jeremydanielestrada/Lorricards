@@ -37,7 +37,7 @@ function PasteNoteInput({ folderId }: { folderId: number }) {
   return (
     <form onSubmit={handleSubmit}>
       <textarea
-        className="input-base m-0 resize-none "
+        className={`input-base m-0 resize-none ${documet ? "h-80" : " "}`}
         placeholder="Paste your notes.."
         value={documet}
         onChange={(e) => setDocument(e.target.value)}

@@ -30,8 +30,8 @@ export const useFlashCardStore = create<FlashCardStore>((set) => ({
 
   getFlashCardByFolderId: async (folderId: number) => {
     try {
-      const res = await api.get(`/get-flash-cards/${folderId}`);
-      set({ flashCards: res.data });
+      const res = await api.get(`/flash-card/get-flash-cards/${folderId}`);
+      set({ flashCards: res.data.flash_cards });
     } catch (error: any) {
       console.log(error);
     }
@@ -39,7 +39,9 @@ export const useFlashCardStore = create<FlashCardStore>((set) => ({
 
   createFlashCardsFromDocument: async (folderId: number, document: string) => {
     try {
-      const res = await api.post(`/create-flash-card/${folderId}`, document);
+      const res = await api.post(`/flash-card/create-flash-card/${folderId}`, {
+        document,
+      });
       return { success: true, ...res.data };
     } catch (error: any) {
       console.log(error);
@@ -52,7 +54,7 @@ export const useFlashCardStore = create<FlashCardStore>((set) => ({
 
   createFlashCardsByFileUpload: async (folderId: number, file: FormData) => {
     try {
-      const res = await api.post(`/upload/${folderId}`, file);
+      const res = await api.post(`/flash-card/upload/${folderId}`, file);
       return { success: true, ...res.data };
     } catch (error: any) {
       return {

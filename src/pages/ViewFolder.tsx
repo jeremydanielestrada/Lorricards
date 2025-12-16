@@ -29,19 +29,20 @@ function ViewFolder() {
   ];
 
   useEffect(() => {
-    getFlashCardByFolderId(Number(folderParams.id));
-  }, []);
+    getFlashCardByFolderId(folderData.id);
+    console.log(folderData);
+  }, [folderData]);
 
   const tabContent: Record<TabId, JSX.Element> = {
-    tab1: <PasteNoteInput folderId={Number(folderParams.id) || 0} />,
+    tab1: <PasteNoteInput folderId={folderData.id || 0} />,
 
-    tab2: <ImportFileiInput folderId={Number(folderParams.id) || 0} />,
+    tab2: <ImportFileiInput folderId={folderData.id || 0} />,
   };
 
   return (
     <div className="mx-auto w-80 sm:w-100  md:w-300">
       <h1 className="text-center  text-3xl sm:text-5xl md:text-7xl">
-        {folderData?.title || folderParams.title}
+        {folderParams.title}
       </h1>
 
       <div className="mt-5 flex flex-wrap space-x-2 justify-center items-center border-b  font-semibold">
