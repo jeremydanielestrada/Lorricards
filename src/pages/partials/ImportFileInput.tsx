@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useFlashCardStore } from "../../stores/flashCard";
-import { FileKey, LoaderCircle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { formActionDefault } from "../../utils/helpers";
 import Button from "../../components/common/Button";
 
@@ -9,6 +9,7 @@ function ImportFileiInput({ folderId }: { folderId: number }) {
     useFlashCardStore();
   const [file, setFile] = useState<File | null>(null);
   const [formAction, setFormAction] = useState(formActionDefault);
+  const fileInputRef = useRef<HTMLInputElement>(null); // Add this
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -39,6 +40,11 @@ function ImportFileiInput({ folderId }: { folderId: number }) {
       });
       await getFlashCardByFolderId(folderId);
       setFile(null);
+
+      // Clear the input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } else {
       setFormAction({
         formErrorMessage: res.message || "Error creating flashcards",
@@ -53,6 +59,7 @@ function ImportFileiInput({ folderId }: { folderId: number }) {
       <h2 className="text-xl font-bold mb-2">Import File</h2>
       <div className="flex gap-2 items-center flex-col">
         <input
+          ref={fileInputRef} // Add this
           id="file-input"
           type="file"
           accept=".pdf,.doc,.docx"
