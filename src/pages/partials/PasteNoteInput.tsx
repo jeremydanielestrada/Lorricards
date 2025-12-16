@@ -1,8 +1,9 @@
 import type React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFlashCardStore } from "../../stores/flashCard";
 import { LoaderCircle } from "lucide-react";
 import { formActionDefault } from "../../utils/helpers";
+import AlertNotification from "../../components/common/AlertNotifications";
 import Button from "../../components/common/Button";
 
 function PasteNoteInput({ folderId }: { folderId: number }) {
@@ -10,6 +11,25 @@ function PasteNoteInput({ folderId }: { folderId: number }) {
     useFlashCardStore();
   const [formAction, setFormAction] = useState(formActionDefault);
   const [documet, setDocument] = useState<string>("");
+  const [showAlert, setShowAlert] = useState(false);
+
+  // Auto-hide alert after 3 seconds
+  useEffect(() => {
+    if (formAction.formSuccessMessage || formAction.formErrorMessage) {
+      setShowAlert(true);
+      const timer = setTimeout(() => {
+        setShowAlert(false);
+        // Optionally clear messages after hiding
+        setFormAction((prev) => ({
+          ...prev,
+          formSuccessMessage: "",
+          formErrorMessage: "",
+        }));
+      }, 3000);
+
+      return () => clearTimeout(timer); // Cleanup
+    }
+  }, [formAction.formSuccessMessage, formAction.formErrorMessage]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,6 +62,14 @@ function PasteNoteInput({ folderId }: { folderId: number }) {
         value={documet}
         onChange={(e) => setDocument(e.target.value)}
       ></textarea>
+
+      {showAlert && (
+        <AlertNotification
+          success={!!formAction.formSuccessMessage}
+          message={formAction.formSuccessMessage || formAction.formErrorMessage}
+        />
+      )}
+
       <Button
         disabled={formAction.formProcess}
         process={formAction.formProcess}

@@ -12,7 +12,7 @@ function AppRoutes() {
         <Route index element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="home" element={<Home />} />
-        <Route path="folder/:title" element={<ViewFolder />} />
+        <Route path="folder/:id/:title" element={<ViewFolder />} />
       </Route>
     </Routes>
   );

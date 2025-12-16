@@ -18,7 +18,7 @@ interface Tabs {
 
 function ViewFolder() {
   const location = useLocation();
-  const folderParams = useParams();
+  const { id, title } = useParams();
   const folderData = location.state?.folderData;
   const [activeTab, setActiveTab] = useState<TabId>("tab1");
   const { getFlashCardByFolderId, flashCards } = useFlashCardStore();
@@ -29,9 +29,12 @@ function ViewFolder() {
   ];
 
   useEffect(() => {
-    getFlashCardByFolderId(folderData.id);
-    console.log(folderData);
-  }, [folderData]);
+    console.log(title);
+    console.log(id);
+    if (id) {
+      getFlashCardByFolderId(Number(id));
+    }
+  }, [id]);
 
   const tabContent: Record<TabId, JSX.Element> = {
     tab1: <PasteNoteInput folderId={folderData.id || 0} />,
@@ -42,7 +45,7 @@ function ViewFolder() {
   return (
     <div className="mx-auto w-80 sm:w-100  md:w-300">
       <h1 className="text-center  text-3xl sm:text-5xl md:text-7xl">
-        {folderParams.title}
+        {title || folderData?.title}
       </h1>
 
       <div className="mt-5 flex flex-wrap space-x-2 justify-center items-center border-b  font-semibold">
@@ -71,9 +74,17 @@ function ViewFolder() {
           flashCards.length > 3 ? "overflow-y-scroll" : "overflow-hidden"
         }`}
       >
-        {flashCards.map((f: FlashCard) => (
-          <Flashcard key={f.question} question={f.question} answer={f.answer} />
-        ))}
+        {flashCards ? (
+          flashCards.map((f: FlashCard) => (
+            <Flashcard
+              key={f.question}
+              question={f.question}
+              answer={f.answer}
+            />
+          ))
+        ) : (
+          <div>Loading FlashCards</div>
+        )}
       </div>
     </div>
   );

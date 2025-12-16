@@ -30,6 +30,7 @@ export const useFlashCardStore = create<FlashCardStore>((set) => ({
 
   getFlashCardByFolderId: async (folderId: number) => {
     try {
+      set({ flashCards: [] });
       const res = await api.get(`/flash-card/get-flash-cards/${folderId}`);
       set({ flashCards: res.data.flash_cards });
     } catch (error: any) {
