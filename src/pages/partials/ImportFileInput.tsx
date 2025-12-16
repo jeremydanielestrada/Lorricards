@@ -1,7 +1,8 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useFlashCardStore } from "../../stores/flashCard";
 import { LoaderCircle } from "lucide-react";
 import { formActionDefault } from "../../utils/helpers";
+import AlertNotification from "../../components/common/AlertNotifications";
 import Button from "../../components/common/Button";
 
 function ImportFileiInput({ folderId }: { folderId: number }) {
@@ -10,6 +11,25 @@ function ImportFileiInput({ folderId }: { folderId: number }) {
   const [file, setFile] = useState<File | null>(null);
   const [formAction, setFormAction] = useState(formActionDefault);
   const fileInputRef = useRef<HTMLInputElement>(null); // Add this
+  const [showAlert, setShowAlert] = useState(false);
+
+  // Auto-hide alert after 3 seconds
+  useEffect(() => {
+    if (formAction.formSuccessMessage || formAction.formErrorMessage) {
+      setShowAlert(true);
+      const timer = setTimeout(() => {
+        setShowAlert(false);
+        // Optionally clear messages after hiding
+        setFormAction((prev) => ({
+          ...prev,
+          formSuccessMessage: "",
+          formErrorMessage: "",
+        }));
+      }, 3000);
+
+      return () => clearTimeout(timer); // Cleanup
+    }
+  }, [formAction.formSuccessMessage, formAction.formErrorMessage]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -67,6 +87,15 @@ function ImportFileiInput({ folderId }: { folderId: number }) {
           className="input-base"
           disabled={formAction.formProcess}
         />
+
+        {showAlert && (
+          <AlertNotification
+            success={!!formAction.formSuccessMessage}
+            message={
+              formAction.formSuccessMessage || formAction.formErrorMessage
+            }
+          />
+        )}
         <Button
           click={handleUpload}
           disabled={!file || formAction.formProcess}

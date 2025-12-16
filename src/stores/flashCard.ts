@@ -62,7 +62,7 @@ export const useFlashCardStore = create<FlashCardStore>((set) => ({
       });
       return { success: true, ...res.data };
     } catch (error: any) {
-      console.log(error);
+      console.log(error.response?.data?.message);
       return {
         success: false,
         message: error.response?.data?.message || "Upload failed",
