@@ -7,13 +7,19 @@ import FolderDialog from "../system/FolderDialog";
 import ProfileBanner from "./ProfileBanner";
 import type { FolderType } from "../../stores/folder";
 import { useFolderStore } from "../../stores/folder";
+import ConfirmDialog from "../common/ConfirmDialog";
+import { useNavigate, useLocation } from "react-router";
 
 function SideNavigation() {
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
-  const { folders, getFoldersByuserId, deleteFolder } = useFolderStore();
+  const [isConfirmDialogVisible, setConfirmDialog] = useState<boolean>(false);
   const [folderData, setFolderData] = useState<FolderType | undefined>(
     undefined
   );
+  const { folders, getFoldersByuserId, deleteFolder } = useFolderStore();
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     getFoldersByuserId();
@@ -30,8 +36,24 @@ function SideNavigation() {
   };
 
   const isDelete = async (id: number) => {
-    deleteFolder(id);
+    const res = await deleteFolder(id);
+
+    if (res.success) {
+      setConfirmDialog(false);
+      setFolderData(null!);
+      await getFoldersByuserId();
+    }
+
+    if (location.pathname.includes(`/folder/${id}`)) {
+      navigate("/home"); // Navigate to home or another default page
+    }
   };
+
+  const selectFolder = (data: any) => {
+    setConfirmDialog(true);
+    setFolderData(data);
+  };
+
   return (
     <>
       <div className="fixed top-0 bottom-0 z-50 px-4 bg-slate-800 border-2 border-slate-700 w-70  transition-transform  duration-300 ease-in-out ">
@@ -64,7 +86,7 @@ function SideNavigation() {
                       key={folder.id}
                       title={folder.title}
                       onUpdate={() => isUpdate(folder)}
-                      onDelete={() => isDelete(folder.id!)}
+                      onSelect={() => selectFolder(folder)}
                     />
                   ))
                 : "Loading Folders..."}
@@ -78,6 +100,12 @@ function SideNavigation() {
           open={isDialogVisible}
           onClose={() => setIsDialogVisible(false)}
           folderData={folderData}
+        />
+        <ConfirmDialog
+          open={isConfirmDialogVisible}
+          onClose={() => setConfirmDialog(false)}
+          confirm={() => folderData?.id && isDelete(folderData.id)}
+          text="Delete this folder?"
         />
       </div>
     </>

@@ -6,10 +6,11 @@ interface FolderPropTypes {
   link: string;
   folder: object;
   onUpdate: () => void;
-  onDelete: () => void;
+  onDelete?: () => void;
+  onSelect: () => void;
 }
 
-function Folder({ title, link, folder, onDelete, onUpdate }: FolderPropTypes) {
+function Folder({ title, link, folder, onSelect, onUpdate }: FolderPropTypes) {
   return (
     <NavLink
       to={link}
@@ -27,7 +28,7 @@ function Folder({ title, link, folder, onDelete, onUpdate }: FolderPropTypes) {
 
       <div className="flex space-x-1 mx-2">
         <Pencil className="cursor-pointer text-blue-600" onClick={onUpdate} />
-        <Trash className="cursor-pointer text-red-600" onClick={onDelete} />
+        <Trash className="cursor-pointer text-red-600" onClick={onSelect} />
       </div>
     </NavLink>
   );

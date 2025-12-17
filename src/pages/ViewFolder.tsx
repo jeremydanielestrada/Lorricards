@@ -29,17 +29,14 @@ function ViewFolder() {
   ];
 
   useEffect(() => {
-    console.log(title);
-    console.log(id);
     if (id) {
       getFlashCardByFolderId(Number(id));
     }
   }, [id]);
 
   const tabContent: Record<TabId, JSX.Element> = {
-    tab1: <PasteNoteInput folderId={folderData.id || 0} />,
-
-    tab2: <ImportFileiInput folderId={folderData.id || 0} />,
+    tab1: <PasteNoteInput folderId={Number(id) || 0} />,
+    tab2: <ImportFileiInput folderId={Number(id) || 0} />,
   };
 
   return (
@@ -74,7 +71,7 @@ function ViewFolder() {
           flashCards.length > 3 ? "overflow-y-scroll" : "overflow-hidden"
         }`}
       >
-        {flashCards ? (
+        {flashCards.length > 0 ? (
           flashCards.map((f: FlashCard) => (
             <Flashcard
               key={f.question}
@@ -83,7 +80,9 @@ function ViewFolder() {
             />
           ))
         ) : (
-          <div>Loading FlashCards</div>
+          <div className="col-span-full text-center py-4">
+            No flashcards yet
+          </div>
         )}
       </div>
     </div>
