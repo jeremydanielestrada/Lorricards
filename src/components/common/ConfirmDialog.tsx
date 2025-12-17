@@ -15,7 +15,7 @@ function ConfirmDialog({ text, open, onClose, confirm }: ConfirmDialog) {
     >
       <div
         onClick={(e) => e.stopPropagation()} //Avoid modal being close when click
-        className={`card shadow transition-all md:ml-50 ${
+        className={`card shadow transition-all w-80  md:w-100 md:ml-50 ${
           open ? "scale-100 opacity-100" : "scale-125 opacity-0"
         }`}
       >
