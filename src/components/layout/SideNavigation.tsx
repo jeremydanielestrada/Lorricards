@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { FolderPlus } from "lucide-react";
+import { Layers2 } from "lucide-react";
 import Folder from "../system/Folder";
 import FolderDialog from "../system/FolderDialog";
 import ProfileBanner from "./ProfileBanner";
@@ -57,7 +58,7 @@ function SideNavigation() {
   return (
     <>
       <div className="fixed top-0 bottom-0 z-50 px-4 bg-slate-800 border-2 border-slate-700 w-70  transition-transform  duration-300 ease-in-out ">
-        <div className="px-2 py-3 text-white flex flex-col gap-2  items-center justify-center border-b mx-2">
+        <div className="px-2 py-3 text-white flex flex-col space-y-2  items-center justify-center border-b mx-2">
           <img
             src="/public/images/LorricardsLogo.png"
             alt="Lorricards Logo"
@@ -65,13 +66,24 @@ function SideNavigation() {
           />
           <h2 className="text-2xl font-bold">Lorricards</h2>
         </div>
-        <button
-          onClick={() => isAdd()}
-          className="base-btn py-1 flex items-center justify-center space-x-2"
-        >
-          <FolderPlus />
-          <span>Add Folder</span>
-        </button>
+
+        <div className="mt-5">
+          <button
+            onClick={() => navigate("/create-flashcards")}
+            className="base-btn py-1 flex items-center space-x-2"
+          >
+            <Layers2 className="ml-2" />
+            <span>Create Flash Cards</span>
+          </button>
+
+          <button
+            onClick={() => isAdd()}
+            className="base-btn py-1 flex items-center  space-x-2"
+          >
+            <FolderPlus className="ml-2" />
+            <span>Add Folder</span>
+          </button>
+        </div>
 
         {/* Folder List */}
         <div className="my-5">

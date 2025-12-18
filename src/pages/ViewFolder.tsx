@@ -18,8 +18,8 @@ interface Tabs {
 
 function ViewFolder() {
   const location = useLocation();
-  const { id, title } = useParams();
   const folderData = location.state?.folderData;
+  const { id, title } = useParams();
   const [activeTab, setActiveTab] = useState<TabId>("tab1");
   const { getFlashCardByFolderId, flashCards } = useFlashCardStore();
 

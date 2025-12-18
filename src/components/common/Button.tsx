@@ -2,8 +2,8 @@
 import { type LucideIcon } from "lucide-react";
 
 interface Button {
-  disabled: boolean;
-  process: boolean;
+  disabled?: boolean;
+  process?: boolean;
   text: string;
   click?: () => any;
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>["type"];

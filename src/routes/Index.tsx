@@ -3,7 +3,7 @@ import LayoutWrapper from "../components/layout/LayoutWrapper";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ViewFolder from "../pages/ViewFolder";
-import Home from "../pages/Home";
+import CreatFlashCards from "../pages/CreateFlashCards";
 
 function AppRoutes() {
   return (
@@ -11,7 +11,7 @@ function AppRoutes() {
       <Route path="/" element={<LayoutWrapper />}>
         <Route index element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route path="home" element={<Home />} />
+        <Route path="create-flashcards" element={<CreatFlashCards />} />
         <Route path="folder/:id/:title" element={<ViewFolder />} />
       </Route>
     </Routes>

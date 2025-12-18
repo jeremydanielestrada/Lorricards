@@ -8,7 +8,7 @@
   }
 
   .base-btn {
-    @apply rounded-lg py-2 mt-5 bg-slate-400 w-full text-lg font-bold cursor-pointer border-0 hover:bg-slate-500;
+    @apply rounded-lg py-2 mt-2 bg-slate-400 w-full text-lg font-bold cursor-pointer border-0 hover:bg-slate-500;
   }
 
   .card {
