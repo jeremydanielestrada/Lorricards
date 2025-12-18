@@ -46,7 +46,7 @@ function SideNavigation() {
     }
 
     if (location.pathname.includes(`/folder/${id}`)) {
-      navigate("/home"); // Navigate to home or another default page
+      navigate("/create-flashcards"); // Navigate to home or another default page
     }
   };
 

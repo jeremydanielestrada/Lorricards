@@ -21,6 +21,7 @@ interface FolderStore {
   updateFolder: (formData: FolderType) => Promise<FolderResponse>;
   deleteFolder: (folderId: number) => Promise<FolderResponse>;
   setFolders: (folder: FolderType[]) => void;
+  getOrCreateUntitledFolder: () => Promise<FolderType | null>;
 }
 
 export const useFolderStore = create<FolderStore>((set, get) => ({
@@ -32,6 +33,16 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
       set({ folders: res.data.folders || [] });
     } catch (error: any) {
       console.log(error.response?.data?.message);
+    }
+  },
+
+  getOrCreateUntitledFolder: async () => {
+    try {
+      const res = await api.get("/folder/untitled");
+      return res.data.folder;
+    } catch (error: any) {
+      console.error("Error getting untitled folder:", error);
+      return null;
     }
   },
 
