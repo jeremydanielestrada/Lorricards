@@ -34,7 +34,7 @@ function LoginForm() {
       });
       setForm(formDataDefault);
       setSuccess(true);
-      navigate("/home");
+      navigate("/create-flashcards");
     } else {
       setFormAction({
         ...formAction,
