@@ -4,12 +4,14 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ViewFolder from "../pages/ViewFolder";
 import CreatFlashCards from "../pages/CreateFlashCards";
+import LandingPage from "../pages/LandingPage";
 
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LayoutWrapper />}>
-        <Route index element={<Login />} />
+        <Route index element={<LandingPage />} />
+        <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="create-flashcards" element={<CreatFlashCards />} />
         <Route path="folder/:id/:title" element={<ViewFolder />} />

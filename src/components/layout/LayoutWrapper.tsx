@@ -1,4 +1,4 @@
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import { useState, useContext, useEffect } from "react";
 import { CircleChevronRight } from "lucide-react";
 import { CircleChevronLeft } from "lucide-react";
@@ -8,6 +8,7 @@ import { AuthContext } from "../../hooks/AuthContext";
 function LayoutWrapper() {
   const [isNavShow, setIsNavShow] = useState<boolean>(false);
   const user = useContext(AuthContext);
+  const location = useLocation();
 
   useEffect(() => {
     if (user) {
@@ -16,6 +17,9 @@ function LayoutWrapper() {
       setIsNavShow(false);
     }
   }, [user]);
+
+  // Check if current route is landing page
+  const isLandingPage = location.pathname === "/";
 
   return (
     <>
@@ -39,7 +43,11 @@ function LayoutWrapper() {
         navShow={isNavShow}
         setNavShow={() => setIsNavShow((prev) => !prev)}
       />
-      <main className={`px-2 ${isNavShow ? "w-full md:ml-35 " : "mx-auto"}`}>
+      <main
+        className={`${!isLandingPage ? "px-2" : ""} ${
+          isNavShow ? "w-full md:ml-35 " : "mx-auto"
+        }`}
+      >
         <Outlet />
       </main>
     </>
