@@ -102,7 +102,7 @@ function LandingPage() {
             Ready to Level Up Your Learning?
           </h2>
           <p className="text-lg sm:text-xl text-white/90 text-center mb-8">
-            Join thousands of students who are studying smarter with Lorricards.
+            Study smarter with Lorricards and level up.
           </p>
           <div className="flex justify-center">
             <button

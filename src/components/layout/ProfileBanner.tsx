@@ -16,7 +16,7 @@ function ProfileBanner() {
 
     if (res.success) {
       setIsLoading(false);
-      navigate("/");
+      navigate("/login");
     } else {
       alert("Error logging out user");
     }
