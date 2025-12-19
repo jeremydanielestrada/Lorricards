@@ -38,6 +38,14 @@ function SideNavigation({
     getFoldersByuserId();
   }, [user]);
 
+  useEffect(() => {
+    if (isMobile) {
+      setNavShow(false);
+    } else {
+      setNavShow(true);
+    }
+  }, [isMobile]);
+
   const isUpdate = (data: any) => {
     setFolderData(data);
     setIsDialogVisible(true);
