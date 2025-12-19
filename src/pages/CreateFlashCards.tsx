@@ -6,7 +6,12 @@ import ImportFileiInput from "./partials/ImportFileInput";
 import Flashcard from "../components/system/Flashcard";
 import { useFlashCardStore } from "../stores/flashCard";
 import type { FlashCard } from "../stores/flashCard";
-import { NotebookPen, Import, type LucideIcon } from "lucide-react";
+import {
+  NotebookPen,
+  Import,
+  LoaderCircle,
+  type LucideIcon,
+} from "lucide-react";
 
 type TabId = "tab1" | "tab2";
 interface Tabs {
@@ -44,8 +49,11 @@ function CreateFlashCards() {
 
   if (!untitledFolderId) {
     return (
-      <div className="mx-auto w-80 sm:w-100 md:w-300 text-center">
-        <p>Loading...</p>
+      <div className="mx-auto mt-30 w-80 sm:w-100 md:w-300 text-center">
+        <div>
+          <LoaderCircle className="animate-spin mx-auto size-30 mb-4" />
+          <p className="font-semibold text-2xl">Loading...</p>
+        </div>
       </div>
     );
   }
