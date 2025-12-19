@@ -17,7 +17,7 @@ function Button({ disabled, process, text, type, icon, click }: Button) {
       onClick={click}
       type={type}
       className={`base-btn flex items-center justify-center ${
-        disabled ? "cursor-not-allowed opacity-50 " : ""
+        disabled && "cursor-not-allowed opacity-50 "
       }`}
       disabled={disabled}
     >
