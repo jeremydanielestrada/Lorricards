@@ -62,7 +62,7 @@ function Login() {
       <p className="text-center py-4  border-b-2 border-slate-600">Or</p>
       <button id="googleBtn" className="w-full"></button>
       <div className="mt-3 text-lg text-right hover:underline">
-        <NavLink to="register">Sign up</NavLink>
+        <NavLink to="/register">Sign up</NavLink>
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ function Register() {
       </div>
       <RegisterForm />
       <div className="mt-3 text-lg text-right hover:underline">
-        <NavLink to="/">Sign in</NavLink>
+        <NavLink to="/login">Sign in</NavLink>
       </div>
     </div>
   );
