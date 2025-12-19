@@ -8,11 +8,20 @@ interface FolderPropTypes {
   onUpdate: () => void;
   onDelete?: () => void;
   onSelect: () => void;
+  click?: () => void;
 }
 
-function Folder({ title, link, folder, onSelect, onUpdate }: FolderPropTypes) {
+function Folder({
+  title,
+  link,
+  folder,
+  onSelect,
+  onUpdate,
+  click,
+}: FolderPropTypes) {
   return (
     <NavLink
+      onClick={click}
       to={link}
       state={{ folderData: folder }}
       className={({ isActive }) =>

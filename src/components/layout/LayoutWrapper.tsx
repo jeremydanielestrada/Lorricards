@@ -34,7 +34,11 @@ function LayoutWrapper() {
         </button>
       )}
 
-      {isNavShow && <SideNavigation />}
+      <SideNavigation
+        user={!!user}
+        navShow={isNavShow}
+        setNavShow={() => setIsNavShow((prev) => !prev)}
+      />
       <main className={`px-2 ${isNavShow ? "w-full sm:ml-30" : "w-full"}`}>
         <Outlet />
       </main>

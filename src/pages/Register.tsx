@@ -3,7 +3,7 @@ import RegisterForm from "../components/auth/RegisterForm";
 
 function Register() {
   return (
-    <div className="card mx-auto md:w-lg">
+    <div className="card mx-auto  mt-10 md:w-lg">
       <div>
         <h2 className="text-center pb-3 text-2xl font-extrabold">Lorricards</h2>
       </div>
