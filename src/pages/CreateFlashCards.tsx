@@ -51,8 +51,8 @@ function CreateFlashCards() {
   }
 
   return (
-    <div className="mx-auto w-80 sm:w-100 md:w-300">
-      <h1 className="text-3xl sm:text-5xl md:text-7xl text-center">
+    <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-center">
         Paste your notes, or upload some documents to see the magic
       </h1>
 
@@ -79,7 +79,7 @@ function CreateFlashCards() {
       <div className="mt-5">{tabContent[activeTab]}</div>
 
       <div
-        className={`w-full border-2 border-white max-h-120 mt-5 grid md:grid-cols-3 sm:grid-cols-2 gap-4 ${
+        className={`w-full border border-white max-h-120 mt-5 grid md:grid-cols-3 sm:grid-cols-2 gap-4 ${
           flashCards.length > 3 ? "overflow-y-scroll" : "overflow-hidden"
         }`}
       >

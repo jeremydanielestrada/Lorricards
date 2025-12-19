@@ -39,7 +39,7 @@ function LayoutWrapper() {
         navShow={isNavShow}
         setNavShow={() => setIsNavShow((prev) => !prev)}
       />
-      <main className={`px-2 ${isNavShow ? "w-full sm:ml-30" : "w-full"}`}>
+      <main className={`px-2 ${isNavShow ? "w-full md:ml-35 " : "mx-auto"}`}>
         <Outlet />
       </main>
     </>

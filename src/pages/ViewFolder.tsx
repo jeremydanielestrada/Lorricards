@@ -40,8 +40,8 @@ function ViewFolder() {
   };
 
   return (
-    <div className="mx-auto w-80 sm:w-100  md:w-300">
-      <h1 className="text-center  text-3xl sm:text-5xl md:text-7xl">
+    <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <h1 className="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
         {title || folderData?.title}
       </h1>
 
@@ -67,7 +67,7 @@ function ViewFolder() {
       <div className="mt-5">{tabContent[activeTab]}</div>
 
       <div
-        className={`w-full border-2 border-white  max-h-120  mt-5 grid md:grid-cols-3 sm:grid-cols-2 gap-4 ${
+        className={`w-full  max-h-120  mt-5 grid md:grid-cols-3 sm:grid-cols-2 gap-4 ${
           flashCards.length > 3 ? "overflow-y-scroll" : "overflow-hidden"
         }`}
       >
