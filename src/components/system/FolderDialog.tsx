@@ -110,6 +110,7 @@ function FolderDialog({ open, folderData, onClose }: FolderDialog) {
               process={formAction.formProcess}
             />
           </form>
+
           <div className="my-2">
             <button
               className="base-btn bg-red-600 hover:bg-red-700"

@@ -5,13 +5,15 @@ import { LoaderCircle } from "lucide-react";
 import { formActionDefault } from "../../utils/helpers";
 import AlertNotification from "../../components/common/AlertNotifications";
 import Button from "../../components/common/Button";
+import { validateInput } from "../../utils/validators";
 
 function PasteNoteInput({ folderId }: { folderId: number }) {
   const { createFlashCardsFromDocument, getFlashCardByFolderId } =
     useFlashCardStore();
   const [formAction, setFormAction] = useState(formActionDefault);
-  const [documet, setDocument] = useState<string>("");
+  const [documentText, setDocumentText] = useState<string>("");
   const [showAlert, setShowAlert] = useState(false);
+  const [validationError, setValidationError] = useState<string>("");
 
   // Auto-hide alert after 3 seconds
   useEffect(() => {
@@ -31,8 +33,25 @@ function PasteNoteInput({ folderId }: { folderId: number }) {
     }
   }, [formAction.formSuccessMessage, formAction.formErrorMessage]);
 
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setDocumentText(value);
+
+    // Clear validation error when user types
+    if (validationError) {
+      setValidationError("");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Validate input
+    const validation = validateInput(documentText);
+    if (!validation.valid) {
+      setValidationError(validation.error || "Invalid input");
+      return;
+    }
     setFormAction({ ...formAction, formProcess: true });
 
     const res = await createFlashCardsFromDocument(folderId, documet);
@@ -44,7 +63,7 @@ function PasteNoteInput({ folderId }: { folderId: number }) {
         formProcess: false,
       });
       await getFlashCardByFolderId(folderId);
-      setDocument("");
+      setDocumentText("");
     } else {
       setFormAction({
         formErrorMessage: res.message || "Error creating flashcards",
@@ -54,14 +73,36 @@ function PasteNoteInput({ folderId }: { folderId: number }) {
     }
   };
 
+  const wordCount = documentText
+    .trim()
+    .split(/\s+/)
+    .filter((w) => w.length > 0).length;
+  const charCount = documentText.length;
+
   return (
     <form onSubmit={handleSubmit}>
-      <textarea
-        className={`input-base m-0 resize-none ${documet ? "h-80" : " "}`}
-        placeholder="Paste your notes.."
-        value={documet}
-        onChange={(e) => setDocument(e.target.value)}
-      ></textarea>
+      <div className="relative">
+        <textarea
+          className={`input-base m-0 resize-none ${
+            documentText ? "h-80" : ""
+          } ${validationError ? "border-red-500" : ""}`}
+          placeholder="Paste your study notes here (minimum 50 characters, 10 words)..."
+          value={documentText}
+          onChange={handleChange}
+        ></textarea>
+
+        {/* Character and word counter */}
+        <div className="text-xs text-slate-400 mt-1 flex justify-between">
+          <span>{wordCount} words</span>
+          <span>{charCount} / 10,000 characters</span>
+        </div>
+      </div>
+
+      {validationError && (
+        <div className="text-red-500 text-sm mt-2 bg-red-50 border border-red-200 rounded p-2">
+          {validationError}
+        </div>
+      )}
 
       {showAlert && (
         <AlertNotification
@@ -71,7 +112,7 @@ function PasteNoteInput({ folderId }: { folderId: number }) {
       )}
 
       <Button
-        disabled={formAction.formProcess}
+        disabled={formAction.formProcess || !documentText.trim()}
         process={formAction.formProcess}
         icon={LoaderCircle}
         text="Generate Flashcards"
