@@ -39,7 +39,8 @@ export const authStore = create<AuthStore>((set) => ({
   registerUser: async (formData) => {
     try {
       const res = await api.post("/auth/register", formData);
-      return res.data;
+      set({ userData: res.data.user });
+      return { success: true, ...res.data };
     } catch (error: any) {
       return {
         success: false,
@@ -89,9 +90,7 @@ export const authStore = create<AuthStore>((set) => ({
     try {
       const res = await api.get("/auth/session");
       set({ userData: res.data });
-      console.log("User is authenticated", res.data);
-    } catch (error: any) {
-      console.error("Fetch user failed:", error.response?.data?.message);
+    } catch {
       set({ userData: null });
     }
   },

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FolderPlus } from "lucide-react";
 import { Layers2 } from "lucide-react";
 import Folder from "../system/Folder";
@@ -11,18 +11,15 @@ import { useFolderStore } from "../../stores/folder";
 import ConfirmDialog from "../common/ConfirmDialog";
 import { useNavigate, useLocation } from "react-router";
 import { useMediaQuery } from "react-responsive";
+import { AuthContext } from "../../hooks/AuthContext";
 
 interface SideNavigationPropTypes {
   navShow: boolean;
-  user?: boolean;
   setNavShow: (value: boolean) => void;
 }
 
-function SideNavigation({
-  navShow,
-  setNavShow,
-  user,
-}: SideNavigationPropTypes) {
+function SideNavigation({ navShow, setNavShow }: SideNavigationPropTypes) {
+  const user = useContext(AuthContext); // Use AuthContext instead of prop
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
   const [isConfirmDialogVisible, setConfirmDialog] = useState<boolean>(false);
   const [folderData, setFolderData] = useState<FolderType | undefined>(
@@ -35,8 +32,10 @@ function SideNavigation({
   const location = useLocation();
 
   useEffect(() => {
-    getFoldersByuserId();
-  }, [user]);
+    if (user) {
+      getFoldersByuserId();
+    }
+  }, [user]); // This will trigger whenever user changes
 
   useEffect(() => {
     if (isMobile) {
@@ -66,7 +65,7 @@ function SideNavigation({
     }
 
     if (location.pathname.includes(`/folder/${id}`)) {
-      navigate("/create-flashcards"); // Navigate to home or another default page
+      navigate("/create-flashcards");
     }
   };
 
@@ -119,19 +118,27 @@ function SideNavigation({
             <span className="font-medium text-slate-400">Folders:</span>
             <ul>
               <li>
-                {folders.length > 0
-                  ? folders?.map((folder: FolderType) => (
-                      <Folder
-                        link={`folder/${folder.id}/${folder.title}`}
-                        folder={folder}
-                        key={folder.id}
-                        title={folder.title}
-                        onUpdate={() => isUpdate(folder)}
-                        onSelect={() => selectFolder(folder)}
-                        click={closeSideNavOnMobileWhenNavigating}
-                      />
-                    ))
-                  : "Loading Folders..."}
+                {folders.length > 0 ? (
+                  folders.map((folder: FolderType) => (
+                    <Folder
+                      link={`folder/${folder.id}/${folder.title}`}
+                      folder={folder}
+                      key={folder.id}
+                      title={folder.title}
+                      onUpdate={() => isUpdate(folder)}
+                      onSelect={() => selectFolder(folder)}
+                      click={closeSideNavOnMobileWhenNavigating}
+                    />
+                  ))
+                ) : user ? (
+                  <div className="text-slate-400 text-sm mt-2">
+                    No folders yet. Create one!
+                  </div>
+                ) : (
+                  <div className="text-slate-400 text-sm mt-2">
+                    Loading folders...
+                  </div>
+                )}
               </li>
             </ul>
           </div>

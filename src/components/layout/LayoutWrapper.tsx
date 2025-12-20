@@ -39,7 +39,6 @@ function LayoutWrapper() {
       )}
 
       <SideNavigation
-        user={!!user}
         navShow={isNavShow}
         setNavShow={() => setIsNavShow((prev) => !prev)}
       />

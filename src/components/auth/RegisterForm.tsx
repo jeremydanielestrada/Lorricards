@@ -1,4 +1,5 @@
 import { authStore } from "../../stores/auth";
+import { useFolderStore } from "../../stores/folder";
 import { useState } from "react";
 import { formActionDefault } from "../../utils/helpers";
 import { useNavigate } from "react-router";
@@ -18,6 +19,8 @@ const formDataDefault = {
 
 function RegisterForm() {
   const { registerUser } = authStore();
+  const { getOrCreateUntitledFolder } = useFolderStore();
+
   const navigate = useNavigate();
 
   const [form, setForm] = useState<UserData>(formDataDefault);
@@ -42,6 +45,9 @@ function RegisterForm() {
     const res = await registerUser(form);
 
     if (res.user && res.success) {
+      // Create untitled folder for new user
+      await getOrCreateUntitledFolder();
+
       setFormAction({
         ...formAction,
         formProcess: false,
