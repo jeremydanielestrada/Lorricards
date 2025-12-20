@@ -54,15 +54,25 @@ function Login() {
 
   return (
     <div className="card mx-auto md:w-lg mt-10">
-      <div>
+      <div className="flex items-center space-x-2 justify-center mb-4">
+        <img
+          className="rounded"
+          src="/public/images/LorricardsLogo.png"
+          alt="logo"
+          width="50"
+        />
         <h2 className="text-center pb-3 text-2xl font-extrabold">Lorricards</h2>
       </div>
       <LoginForm />
 
-      <p className="text-center py-4  border-b-2 border-slate-600">Or</p>
+      <p className="text-center py-4 font-semibold border-b-2 border-slate-600">
+        Or
+      </p>
       <button id="googleBtn" className="w-full"></button>
       <div className="mt-3 text-lg text-right hover:underline">
-        <NavLink to="/register">Sign up</NavLink>
+        <NavLink to="/register" className="hover:text-blue-400">
+          Sign up
+        </NavLink>
       </div>
     </div>
   );
