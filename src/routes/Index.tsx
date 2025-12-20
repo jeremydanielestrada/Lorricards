@@ -58,11 +58,10 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
-
-        {/* Error Pages */}
-        <Route path="forbidden" element={<ForbiddenPage />} />
-        <Route path="*" element={<NotFoundPage />} />
       </Route>
+      {/* Error Pages */}
+      <Route path="forbidden" element={<ForbiddenPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
