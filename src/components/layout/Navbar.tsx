@@ -4,7 +4,7 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-white flex gap-3 items-center justify-between">
         <div className="flex space-x-2 items-center">
           <img
-            src="/public/images/LorricardsLogo.png"
+            src="/images/LorricardsLogo.png"
             alt="Lorricards Logo"
             className="w-10 h-10 rounded object-cover"
           />

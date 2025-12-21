@@ -57,7 +57,7 @@ function Login() {
       <div className="flex items-center space-x-2 justify-center mb-4">
         <img
           className="rounded"
-          src="/public/images/LorricardsLogo.png"
+          src="/images/LorricardsLogo.png"
           alt="logo"
           width="50"
         />
