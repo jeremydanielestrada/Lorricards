@@ -76,9 +76,17 @@ export const authStore = create<AuthStore>((set) => ({
   },
 
   logoutUser: async () => {
-    const res = await api.post("/auth/logout");
-    set({ userData: null });
-    return { success: true, ...res.data };
+    try {
+      await api.post("/auth/logout");
+      // Clear user data immediately
+      set({ userData: null });
+      return { success: true, message: "Logged out successfully" };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: error.response?.data?.message || "Logout failed",
+      };
+    }
   },
 
   fetchUser: async () => {
