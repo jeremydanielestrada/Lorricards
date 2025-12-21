@@ -89,7 +89,7 @@ function SideNavigation({ navShow, setNavShow }: SideNavigationPropTypes) {
           {/* Logo Section - Fixed at Top */}
           <div className="px-2 py-3 text-white flex flex-col space-y-2 items-center justify-center border-b mx-2 flex-shrink-0">
             <img
-              src="/public/images/LorricardsLogo.png"
+              src="/images/LorricardsLogo.png"
               alt="Lorricards Logo"
               className="w-10 rounded"
             />
