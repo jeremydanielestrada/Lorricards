@@ -54,7 +54,7 @@ function PasteNoteInput({ folderId }: { folderId: number }) {
     }
     setFormAction({ ...formAction, formProcess: true });
 
-    const res = await createFlashCardsFromDocument(folderId, documet);
+    const res = await createFlashCardsFromDocument(folderId, documentText);
 
     if (res.success) {
       setFormAction({
@@ -73,12 +73,6 @@ function PasteNoteInput({ folderId }: { folderId: number }) {
     }
   };
 
-  const wordCount = documentText
-    .trim()
-    .split(/\s+/)
-    .filter((w) => w.length > 0).length;
-  const charCount = documentText.length;
-
   return (
     <form onSubmit={handleSubmit}>
       <div className="relative">
@@ -90,12 +84,6 @@ function PasteNoteInput({ folderId }: { folderId: number }) {
           value={documentText}
           onChange={handleChange}
         ></textarea>
-
-        {/* Character and word counter */}
-        <div className="text-xs text-slate-400 mt-1 flex justify-between">
-          <span>{wordCount} words</span>
-          <span>{charCount} / 10,000 characters</span>
-        </div>
       </div>
 
       {validationError && (

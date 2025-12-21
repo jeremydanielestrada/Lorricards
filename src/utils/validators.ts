@@ -7,13 +7,6 @@ export const validateInput = (
     return { valid: false, error: "Please provide at least 50 characters" };
   }
 
-  if (cleaned.length > 10000) {
-    return {
-      valid: false,
-      error: "Content is too long (max 10,000 characters)",
-    };
-  }
-
   const words = cleaned.split(/\s+/).filter((word) => word.length > 2);
   if (words.length < 10) {
     return {
