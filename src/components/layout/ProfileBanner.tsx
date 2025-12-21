@@ -23,7 +23,7 @@ function ProfileBanner() {
   };
 
   return (
-    <div className="absolute bottom-2 border-t-2 w-60">
+    <div className="w-full">
       <div className="mt-2 flex items-center justify-between">
         <span className="font-semibold">
           {user ? `${user.first_name} ${user.last_name}` : "Loading..."}

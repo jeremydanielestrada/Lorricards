@@ -87,7 +87,7 @@ function CreateFlashCards() {
       <div className="mt-5">{tabContent[activeTab]}</div>
 
       <div
-        className={`w-full border border-white max-h-120 mt-5 grid md:grid-cols-3 sm:grid-cols-2 gap-4 ${
+        className={`w-full max-h-120 mt-5 grid md:grid-cols-3 sm:grid-cols-2 gap-4 ${
           flashCards.length > 3 ? "overflow-y-scroll" : "overflow-hidden"
         }`}
       >
