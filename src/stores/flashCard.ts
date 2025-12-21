@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
 import { api } from "../utils/axios";
 
@@ -39,7 +40,7 @@ export const useFlashCardStore = create<FlashCardStore>((set) => ({
         document,
       });
       return { success: true, ...res.data };
-    } catch {
+    } catch (error: any) {
       return {
         success: false,
         message: error.response?.data?.message,
@@ -55,7 +56,7 @@ export const useFlashCardStore = create<FlashCardStore>((set) => ({
         },
       });
       return { success: true, ...res.data };
-    } catch {
+    } catch (error: any) {
       return {
         success: false,
         message: error.response?.data?.message || "Upload failed",
