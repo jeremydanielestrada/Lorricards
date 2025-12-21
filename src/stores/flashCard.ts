@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
 import { api } from "../utils/axios";
 
@@ -29,13 +28,9 @@ export const useFlashCardStore = create<FlashCardStore>((set) => ({
   flashCards: [],
 
   getFlashCardByFolderId: async (folderId: number) => {
-    try {
-      set({ flashCards: [] });
-      const res = await api.get(`/flash-card/get-flash-cards/${folderId}`);
-      set({ flashCards: res.data.flash_cards });
-    } catch (error: any) {
-      console.log(error);
-    }
+    set({ flashCards: [] });
+    const res = await api.get(`/flash-card/get-flash-cards/${folderId}`);
+    set({ flashCards: res.data.flash_cards });
   },
 
   createFlashCardsFromDocument: async (folderId: number, document: string) => {
@@ -44,8 +39,7 @@ export const useFlashCardStore = create<FlashCardStore>((set) => ({
         document,
       });
       return { success: true, ...res.data };
-    } catch (error: any) {
-      console.log(error);
+    } catch {
       return {
         success: false,
         message: error.response?.data?.message,
@@ -61,8 +55,7 @@ export const useFlashCardStore = create<FlashCardStore>((set) => ({
         },
       });
       return { success: true, ...res.data };
-    } catch (error: any) {
-      console.log(error.response?.data?.message);
+    } catch {
       return {
         success: false,
         message: error.response?.data?.message || "Upload failed",

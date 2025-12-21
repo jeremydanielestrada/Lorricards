@@ -28,20 +28,15 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
   folders: [],
 
   getFoldersByuserId: async () => {
-    try {
-      const res = await api.get("/folder/view");
-      set({ folders: res.data.folders || [] });
-    } catch (error: any) {
-      console.log(error.response?.data?.message);
-    }
+    const res = await api.get("/folder/view");
+    set({ folders: res.data.folders || [] });
   },
 
   getOrCreateUntitledFolder: async () => {
     try {
       const res = await api.get("/folder/untitled");
       return res.data.folder;
-    } catch (error: any) {
-      console.error("Error getting untitled folder:", error);
+    } catch {
       return null;
     }
   },
@@ -51,7 +46,6 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
       const res = await api.post("/folder/create", form);
       return { success: true, ...res.data };
     } catch (error: any) {
-      console.log(error);
       return { success: false, message: error.response?.data?.message };
     }
   },
@@ -59,7 +53,6 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
   updateFolder: async (formData: FolderType) => {
     try {
       const res = await api.put(`folder/update/${formData.id}`, formData);
-      console.log(res.data);
       return { success: true, ...res.data };
     } catch (error: any) {
       return { success: false, message: error.response?.data?.message };
@@ -72,7 +65,6 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
       await get().getFoldersByuserId();
       return { success: true, ...res.data };
     } catch (error: any) {
-      console.log(error);
       return { success: false, message: error.response?.data?.message };
     }
   },
