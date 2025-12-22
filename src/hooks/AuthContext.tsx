@@ -3,6 +3,7 @@
 import { createContext, useEffect, useState } from "react";
 import type { UserData } from "../stores/auth";
 import { authStore } from "../stores/auth";
+
 export const AuthContext = createContext<UserData | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -11,14 +12,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const initAuth = async () => {
-      await fetchUser();
+      // Check if token exists before making API call
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        await fetchUser();
+      }
+
       setIsLoading(false);
     };
     initAuth();
   }, []);
 
-  // Show loading spinner while checking auth status
-  if (isLoading) {
+  // Only show loading for authenticated routes
+  if (isLoading && localStorage.getItem("token")) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-slate-900">
         <div className="text-center">
