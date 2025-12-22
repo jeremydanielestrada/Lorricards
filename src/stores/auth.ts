@@ -40,6 +40,7 @@ export const authStore = create<AuthStore>((set) => ({
     try {
       const res = await api.post("/auth/register", formData);
       set({ userData: res.data.user });
+      localStorage.setItem("token", res.data.token);
       return { success: true, ...res.data };
     } catch (error: any) {
       return {
@@ -53,6 +54,7 @@ export const authStore = create<AuthStore>((set) => ({
     try {
       const res = await api.post("/auth/login", formData);
       set({ userData: res.data.user }); // Automatically store user on login
+      localStorage.setItem("token", res.data.token);
       return { success: true, ...res.data };
     } catch (error: any) {
       return {
@@ -66,6 +68,7 @@ export const authStore = create<AuthStore>((set) => ({
     try {
       const res = await api.post("/auth/google", { credential }); // ✅ Send credential to backend
       set({ userData: res.data.user });
+      localStorage.setItem("token", res.data.token);
       return { success: true, ...res.data };
     } catch (error: any) {
       return {
@@ -80,6 +83,7 @@ export const authStore = create<AuthStore>((set) => ({
       await api.post("/auth/logout");
       // Clear user data immediately
       set({ userData: null });
+      localStorage.removeItem("token");
       return { success: true, message: "Logged out successfully" };
     } catch (error: any) {
       return {

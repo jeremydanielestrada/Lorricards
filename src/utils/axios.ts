@@ -7,3 +7,12 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+// interceptor to include token in all requests
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
